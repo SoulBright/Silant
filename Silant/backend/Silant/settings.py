@@ -39,11 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_filters',
 
     'allauth',
     'allauth.account',
 
     'rest_framework',
+    'corsheaders',
 
     'silant_backend',
 ]
@@ -56,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 SITE_ID = 1
@@ -141,3 +144,17 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 ACCOUNT_ADAPTER = 'silant_backend.adapters.NoSignupAccountAdapter'
+
+# DRF
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.AllowAny'
+        ],
+    'DATE_FORMAT': "%d.%m.%Y",
+}
+
+CORS_ORIGIN_ALLOW_ALL = True

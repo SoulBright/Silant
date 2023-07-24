@@ -1,13 +1,19 @@
 from rest_framework import viewsets, permissions
-from .permissions import MachineAPIPermissions, ReclamationAPIPermissions
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
+from .permissions import MachineAPIPermissions, ReclamationAPIPermissions
 from .serializers import *
+from .filters import *
 
 
 class MachineAPIView(viewsets.ModelViewSet):
-    queryset = Machine.objects.all()
+    queryset = Machine.objects.all().order_by('-shipDate')
     serializer_class = MachineSerializer
     permission_classes = [MachineAPIPermissions]
+    filter_backends = (DjangoFilterBackend, SearchFilter)
+    filterset_class = MachineFilter
+    search_fields = ['machineSerialNumber']
 
     def get_serializer_class(self):
         if self.request.user.is_authenticated:
@@ -19,9 +25,11 @@ class MachineAPIView(viewsets.ModelViewSet):
 
 
 class MaintenanceAPIView(viewsets.ModelViewSet):
-    queryset = Maintenance.objects.all()
+    queryset = Maintenance.objects.all().order_by('-date')
     serializer_class = MaintenanceSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = MaintenanceFilter
 
     def get_queryset(self):
         if Client.objects.filter(clientUser=self.request.user).exists():
@@ -43,9 +51,11 @@ class MaintenanceAPIView(viewsets.ModelViewSet):
 
 
 class ReclamationAPIView(viewsets.ModelViewSet):
-    queryset = Reclamation.objects.all()
+    queryset = Reclamation.objects.all().order_by('-failureDate')
     serializer_class = ReclamationSerializer
     permission_classes = [ReclamationAPIPermissions]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ReclamationFilter
 
     def get_queryset(self):
         if Client.objects.filter(clientUser=self.request.user).exists():

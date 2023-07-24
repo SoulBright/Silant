@@ -42,7 +42,8 @@ class Machine(models.Model):
     """Машина"""
     machineSerialNumber = models.CharField(
         'Зав. № машины',
-        max_length=32)   # Зав. № машины
+        max_length=32,
+        unique=True)   # Зав. № машины
     equipmentModel = models.ForeignKey(
         'EquipmentModel',
         verbose_name='Модель техники',
@@ -53,28 +54,32 @@ class Machine(models.Model):
         on_delete=models.CASCADE)    # Модель двигателя
     engineSerialNumber = models.CharField(
         'Зав. № двигателя',
-        max_length=32)    # Зав. № двигателя
+        max_length=32,
+        unique=True)    # Зав. № двигателя
     transmissionModel = models.ForeignKey(
         'TransmissionModel',
         verbose_name='Модель трансмиссии',
         on_delete=models.CASCADE)  # Модель трансмиссии
     transmissionSerialNumber = models.CharField(
         'Зав. № трансмиссии',
-        max_length=32)    # Зав. № трансмиссии
+        max_length=32,
+        unique=True)    # Зав. № трансмиссии
     drivingBridgeModel = models.ForeignKey(
         'DrivingBridgeModel',
         verbose_name='Модель ведущего моста',
         on_delete=models.CASCADE)    # Модель ведущего моста
     drivingBridgeSerialNumber = models.CharField(
         'Зав. № ведущего моста',
-        max_length=32)    # Зав. № ведущего моста
+        max_length=32,
+        unique=True)    # Зав. № ведущего моста
     controlledBridgeModel = models.ForeignKey(
         'ControlledBridgeModel',
         verbose_name='Модель управляемого моста',
         on_delete=models.CASCADE)    # Модель управляемого моста
     controlledBridgeSerialNumber = models.CharField(
         'Зав. № управляемого моста',
-        max_length=32)    # Зав. № управляемого моста
+        max_length=32,
+        unique=True)    # Зав. № управляемого моста
     contract = models.CharField(
         'Договор поставки №, дата',
         max_length=64)    # Договор поставки №, дата
@@ -185,7 +190,7 @@ class Reclamation(models.Model):
 
 class EquipmentModel(models.Model):
     """Модель техники"""
-    title = models.CharField('Название', max_length=64)
+    title = models.CharField('Название', max_length=64, unique=True)
     description = models.CharField('Описание', max_length=1024)
 
     def __str__(self):
@@ -198,7 +203,7 @@ class EquipmentModel(models.Model):
 
 class EngineMake(models.Model):
     """Модель двигателя"""
-    title = models.CharField('Название', max_length=64)
+    title = models.CharField('Название', max_length=64, unique=True)
     description = models.CharField('Описание', max_length=1024)
 
     def __str__(self):
@@ -211,7 +216,7 @@ class EngineMake(models.Model):
 
 class TransmissionModel(models.Model):
     """Модель трансмиссии"""
-    title = models.CharField('Название', max_length=64)
+    title = models.CharField('Название', max_length=64, unique=True)
     description = models.CharField('Описание', max_length=1024)
 
     def __str__(self):
@@ -224,7 +229,7 @@ class TransmissionModel(models.Model):
 
 class DrivingBridgeModel(models.Model):
     """Модель ведущего моста"""
-    title = models.CharField('Название', max_length=64)
+    title = models.CharField('Название', max_length=64, unique=True)
     description = models.CharField('Описание', max_length=1024)
 
     def __str__(self):
@@ -237,7 +242,7 @@ class DrivingBridgeModel(models.Model):
 
 class ControlledBridgeModel(models.Model):
     """Модель управляемого моста"""
-    title = models.CharField('Название', max_length=64)
+    title = models.CharField('Название', max_length=64, unique=True)
     description = models.CharField('Описание', max_length=1024)
 
     def __str__(self):
@@ -250,7 +255,7 @@ class ControlledBridgeModel(models.Model):
 
 class MaintenanceType(models.Model):
     """Вид ТО"""
-    title = models.CharField('Название', max_length=64)
+    title = models.CharField('Название', max_length=64, unique=True)
     description = models.CharField('Описание', max_length=1024)
 
     def __str__(self):
@@ -263,7 +268,7 @@ class MaintenanceType(models.Model):
 
 class MaintenanceOrganization(models.Model):
     """Организация, проводившая ТО"""
-    title = models.CharField('Название', max_length=64)
+    title = models.CharField('Название', max_length=64, unique=True)
     description = models.CharField('Описание', max_length=1024)
 
     def __str__(self):
@@ -276,7 +281,7 @@ class MaintenanceOrganization(models.Model):
 
 class FailureJuncture(models.Model):
     """Узел отказа"""
-    title = models.CharField('Название', max_length=64)
+    title = models.CharField('Название', max_length=64, unique=True)
     description = models.CharField('Описание', max_length=1024)
 
     def __str__(self):
@@ -289,7 +294,7 @@ class FailureJuncture(models.Model):
 
 class RecoveryMethod(models.Model):
     """Способ восстановления"""
-    title = models.CharField('Название', max_length=64)
+    title = models.CharField('Название', max_length=64, unique=True)
     description = models.CharField('Описание', max_length=1024)
 
     def __str__(self):
