@@ -303,3 +303,4 @@ class RecoveryMethod(models.Model):
     class Meta:
         verbose_name = 'Способ восстановления'
         verbose_name_plural = 'Способы восстановления'
+
