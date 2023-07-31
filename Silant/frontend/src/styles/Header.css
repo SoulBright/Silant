@@ -1,0 +1,44 @@
+.header {
+    width: 1366px;
+    height: 150px;
+    color: #D20A11;
+    background-color: #163E6C;
+    border-radius: 7px;
+}
+
+.container {
+    background-color: #163E6C;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+
+.ico {
+    padding-left: 5%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.contacts {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.sign-up {
+    padding-right: 5%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}

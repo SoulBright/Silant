@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Astra-Sans Regular';
+    src: url('../assets/PT-Astra-Sans_Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Astra-Sans Bold';
+    src: url('../assets/PT-Astra-Sans_Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Astra-Sans Italic';
+    src: url('../assets/PT-Astra-Sans_Italic.ttf');
+}
+
+@font-face {
+    font-family: 'Astra-Sans Bold-Itali';
+    src: url('../assets/PT-Astra-Sans_Bold-Italic.ttf');
+}
+
+#root {
+    width: 1366px;
+    height: 768px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    background-color: #EBE6D6;
+    border-radius: 7px;
+    font-family: 'Astra-Sans Regular';
+}
+
+.App {
+    width: 800px;
+}

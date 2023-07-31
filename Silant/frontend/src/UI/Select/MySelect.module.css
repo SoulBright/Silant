@@ -1,0 +1,11 @@
+.mySelect {
+    padding: 5px;
+    margin: 5px;
+    color: #163E6C;
+    font-size: 14px;
+    background-color: #EBE6D6;
+    border: 2px solid #163E6C;
+    cursor: pointer;
+    user-select: none;
+    font-family: 'Astra-Sans Regular';
+}
