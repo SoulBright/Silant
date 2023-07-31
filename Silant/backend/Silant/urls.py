@@ -16,13 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from silant_backend.views import LoginView, LogoutView, AuthStatusView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('api/', include('silant_backend.urls')),
-    path('api/login/', LoginView.as_view()),
-    path('api/logout/', LogoutView.as_view()),
-    path('api/check-auth/', AuthStatusView.as_view()),
 ]

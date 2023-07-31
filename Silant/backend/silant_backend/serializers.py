@@ -40,7 +40,14 @@ class UnauthenticatedMachineSerializer(MachineCreateSerializer):
 class MaintenanceCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Maintenance
-        fields = '__all__'
+        fields = ('type',
+                  'date',
+                  'operatingTime',
+                  'workOrder',
+                  'workOrderDate',
+                  'maintenanceOrganization',
+                  'machine',
+                  'serviceCompany')
 
 
 class MaintenanceSerializer(MaintenanceCreateSerializer):
@@ -53,7 +60,16 @@ class MaintenanceSerializer(MaintenanceCreateSerializer):
 class ReclamationCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reclamation
-        fields = '__all__'
+        fields = ('failureDate',
+                  'operatingTime',
+                  'failureJuncture',
+                  'failureDescription',
+                  'recoveryMethod',
+                  'spareParts',
+                  'recoveryDate',
+                  'equipmentDowntime',
+                  'machine',
+                  'serviceCompany')
 
 
 class ReclamationSerializer(ReclamationCreateSerializer):
@@ -61,66 +77,3 @@ class ReclamationSerializer(ReclamationCreateSerializer):
     recoveryMethod = serializers.StringRelatedField(source='recoveryMethod.title')
     machine = serializers.StringRelatedField(source='machine.machineSerialNumber')
     serviceCompany = serializers.StringRelatedField(source='serviceCompany.serviceCompanyUser')
-
-
-class ServiceCompanySerializer(serializers.ModelSerializer):
-    serviceCompanyUser = serializers.StringRelatedField(source='serviceCompanyUser.username')
-
-    class Meta:
-        model = ServiceCompany
-        fields = '__all__'
-
-
-class EquipmentModelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = EquipmentModel
-        fields = '__all__'
-
-
-class EngineMakeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = EngineMake
-        fields = '__all__'
-
-
-class TransmissionModelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TransmissionModel
-        fields = '__all__'
-
-
-class DrivingBridgeModelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DrivingBridgeModel
-        fields = '__all__'
-
-
-class ControlledBridgeModelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ControlledBridgeModel
-        fields = '__all__'
-
-
-class MaintenanceTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MaintenanceType
-        fields = '__all__'
-
-
-class MaintenanceOrganizationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MaintenanceOrganization
-        fields = '__all__'
-
-
-class FailureJunctureSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FailureJuncture
-        fields = '__all__'
-
-
-class RecoveryMethodSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RecoveryMethod
-        fields = '__all__'
-
