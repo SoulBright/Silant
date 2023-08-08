@@ -1,0 +1,14 @@
+.main {
+    width: 1366px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    color: #163E6C;
+    background-color: #EBE6D6;
+    border-radius: 7px;
+}
+
+hr {
+    border-width: 2px;
+    border-color: #163E6C;
+}

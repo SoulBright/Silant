@@ -1,23 +1,21 @@
 import React from "react";
+import Modal from 'react-modal';
 
 import './styles/App.css'
 
-import Table from "./components/Table";
+
 import Header from "./components/Header"
-import SearchMachines from "./components/SearchMachines";
-import MachineFilters from "./Filters/MachineFilters";
-import MaintenanceFilters from "./Filters/MaintenanceFilters";
-import ReclamationFilter from "./Filters/ReclamationFilter";
+import Body from "./components/Body";
+import Footer from "./components/Footer";
+
 
 export default function App() {
+  Modal.setAppElement('#root');
   return (
-    <div className="main">
+    <div className="application">
       <Header />
-      <ReclamationFilter />
-      <MaintenanceFilters />
-      <SearchMachines />
-      <Table />
-      <MachineFilters />
+      <Body />
+      <Footer />
     </div>
   );
 }

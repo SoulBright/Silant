@@ -6,6 +6,8 @@ import MachineService from '../API/MachineService';
 import MySelect from '../UI/Select/MySelect';
 import MyButton from '../UI/Button/MyButton';
 
+import './Filters.css'
+
 export default function MachineFilters() {
     const [filterValues, setFilterValues] = useState({
         equipmentModel: '',
@@ -81,8 +83,8 @@ export default function MachineFilters() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleFilterSubmit}>
+        <form className='filters-form' onSubmit={handleFilterSubmit}>
+            <div className="select">
                 <MySelect
                     label="Модель оборудования"
                     name="equipmentModel"
@@ -91,16 +93,14 @@ export default function MachineFilters() {
                     field={'title'}
                     onChange={handleFilterChange}
                 />
-                <br />
                 <MySelect
-                    label="Производитель двигателя"
+                    label="Модель двигателя"
                     name="engineMake"
                     value={filterValues.engineMake}
                     options={engineMakes}
                     field={'title'}
                     onChange={handleFilterChange}
                 />
-                <br />
                 <MySelect
                     label="Модель трансмиссии"
                     name="transmissionModel"
@@ -109,16 +109,14 @@ export default function MachineFilters() {
                     field={'title'}
                     onChange={handleFilterChange}
                 />
-                <br />
                 <MySelect
-                    label="Модель моста, отвечающего за передвижение"
+                    label="Модель ведущего моста"
                     name="drivingBridgeModel"
                     value={filterValues.drivingBridgeModel}
                     options={drivingBridgeModels}
                     field={'title'}
                     onChange={handleFilterChange}
                 />
-                <br />
                 <MySelect
                     label="Модель управляемого моста"
                     name="controlledBridgeModel"
@@ -127,10 +125,11 @@ export default function MachineFilters() {
                     field={'title'}
                     onChange={handleFilterChange}
                 />
-                <br />
+            </div>
+            <div className="button">
                 <MyButton type="submit">Применить фильтры</MyButton>
-                <MyButton onClick={handleResetFilters}>Сбросить фильтры</MyButton>
-            </form>
-        </div>
+                <MyButton onClick={handleResetFilters}>Сбросить все фильтры</MyButton>
+            </div>
+        </form>
     )
 }

@@ -7,6 +7,8 @@ import MaintenanceService from '../API/MaintenanceService';
 import MySelect from '../UI/Select/MySelect';
 import MyButton from '../UI/Button/MyButton';
 
+import './Filters.css'
+
 export default function MaintenanceFilters() {
 
     const [filterValues, setFilterValues] = useState({
@@ -72,37 +74,40 @@ export default function MaintenanceFilters() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleFilterSubmit}>
-                <MySelect
-                    label="Вид ТО"
-                    name="type"
-                    value={filterValues.type}
-                    options={type}
-                    field={'title'}
-                    onChange={handleFilterChange}
-                />
-                <br />
-                <MySelect
-                    label="Машина"
-                    name="machine"
-                    value={filterValues.machine}
-                    options={machine}
-                    field={'machineSerialNumber'}
-                    onChange={handleFilterChange}
-                />
-                <br />
-                <MySelect
-                    label="Сервисная компания"
-                    name="serviceCompany"
-                    value={filterValues.serviceCompany}
-                    options={serviceCompany}
-                    field={'serviceCompanyUser'}
-                    onChange={handleFilterChange}
-                />
-                <br />
-                <MyButton type="submit">Применить фильтры</MyButton>
-                <MyButton onClick={handleResetFilters}>Сбросить фильтры</MyButton>
+        <div className='filters'>
+            <form className='filters-form' onSubmit={handleFilterSubmit}>
+                <div className="select">
+                    <MySelect
+                        label="Вид ТО"
+                        name="type"
+                        value={filterValues.type}
+                        options={type}
+                        field={'title'}
+                        onChange={handleFilterChange}
+                    />
+
+                    <MySelect
+                        label="Машина"
+                        name="machine"
+                        value={filterValues.machine}
+                        options={machine}
+                        field={'machineSerialNumber'}
+                        onChange={handleFilterChange}
+                    />
+
+                    <MySelect
+                        label="Сервисная компания"
+                        name="serviceCompany"
+                        value={filterValues.serviceCompany}
+                        options={serviceCompany}
+                        field={'serviceCompanyUser'}
+                        onChange={handleFilterChange}
+                    />
+                </div>
+                <div className="button">
+                    <MyButton type="submit">Применить фильтры</MyButton>
+                    <MyButton onClick={handleResetFilters}>Сбросить все фильтры</MyButton>
+                </div>
             </form>
         </div>
     )

@@ -1,42 +1,125 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import Modal from 'react-modal'
 
 import ReclamationService from '../API/ReclamationService'
+import ReclamationFilters from '../Filters/ReclamationFilter'
+
+import MyButton from '../UI/Button/MyButton'
+import ListService from '../API/ListService'
 
 export default function ReclamationList() {
-    const [reclamations, setReclamation] = useState([])
-    if (!reclamations.length) {
-        ReclamationService.getAll().then(resp => { setReclamation(resp.data) })
+    const [reclamations, setReclamation] = useState([]);
+    const [objectInfo, setObjectInfo] = useState({});
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [selectedFailureJuncture, setSelectedFailureJuncture] = useState('');
+    const [selectedRecoveryMethod, setSelectedRecoveryMethod] = useState('');
+
+    useEffect(() => {
+        if (!reclamations.length) {
+            ReclamationService.getAll().then(resp => { setReclamation(resp.data) })
+        }
+    }, [reclamations])
+
+    useEffect(() => {
+        if (selectedFailureJuncture) {
+            ListService.getFailureJuncture(selectedFailureJuncture)
+                .then((resp) => {
+                    setObjectInfo(resp.data);
+                    setModalIsOpen(true);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }, [selectedFailureJuncture]);
+
+    useEffect(() => {
+        if (selectedRecoveryMethod) {
+            ListService.getRecoveryMethod(selectedRecoveryMethod)
+                .then((resp) => {
+                    setObjectInfo(resp.data);
+                    setModalIsOpen(true);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }, [selectedRecoveryMethod]);
+
+    const handleFailureJunctureClick = (reclamation) => {
+        setSelectedFailureJuncture(reclamation);
+    };
+
+    const handleRecoveryMethodClick = (reclamation) => {
+        setSelectedRecoveryMethod(reclamation);
+    };
+
+    const closeModal = () => {
+        setSelectedFailureJuncture('');
+        setSelectedRecoveryMethod('');
+        setModalIsOpen(false)
     }
+
     return (
-        <table>
-            <tbody>
-                <tr>
-                    <th>Дата отказа</th>
-                    <th>Наработка, м/час</th>
-                    <th>Узел отказа</th>
-                    <th>Описание отказа</th>
-                    <th>Способ восстановления</th>
-                    <th>Используемые запасные части</th>
-                    <th>Дата восстановления</th>
-                    <th>Время простоя техники</th>
-                    <th>Машина</th>
-                    <th>Сервисная компания</th>
-                </tr>
-                {reclamations.map(reclamation => (
-                    <tr key={reclamation.id}>
-                        <td>{reclamation.failureDate}</td>
-                        <td>{reclamation.operatingTime}</td>
-                        <td>{reclamation.failureJuncture}</td>
-                        <td>{reclamation.failureDescription}</td>
-                        <td>{reclamation.recoveryMethod}</td>
-                        <td>{reclamation.spareParts}</td>
-                        <td>{reclamation.recoveryDate}</td>
-                        <td>{reclamation.equipmentDowntime}</td>
-                        <td>{reclamation.machine}</td>
-                        <td>{reclamation.serviceCompany}</td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+        <div>
+            <div>
+                <h1 style={{ textAlign: 'center' }}>Информация о рекламациях вашей техники</h1>
+            </div>
+            <ReclamationFilters />
+            <div className='table-wrapper'>
+                <table className='table'>
+                    <thead>
+                        <tr>
+                            <th>Дата отказа</th>
+                            <th>Наработка, м/час</th>
+                            <th>Узел отказа</th>
+                            <th>Описание отказа</th>
+                            <th>Способ восстановления</th>
+                            <th>Запасные части</th>
+                            <th>Дата восстановления</th>
+                            <th>Время простоя техники</th>
+                            <th>Машина</th>
+                            <th>Сервисная компания</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {reclamations.map(reclamation => (
+                            <tr key={reclamation.id}>
+                                <td>{reclamation.failureDate}</td>
+                                <td>{reclamation.operatingTime}</td>
+                                <td
+                                    style={{ cursor: 'pointer', color: 'blue' }}
+                                    onClick={() => handleFailureJunctureClick(reclamation.failureJuncture)}>
+                                    {reclamation.failureJuncture}
+                                </td>
+                                <td>{reclamation.failureDescription}</td>
+                                <td
+                                    style={{ cursor: 'pointer', color: 'blue' }}
+                                    onClick={() => handleRecoveryMethodClick(reclamation.recoveryMethod)}>
+                                    {reclamation.recoveryMethod}
+                                </td>
+                                <td>{reclamation.spareParts}</td>
+                                <td>{reclamation.recoveryDate}</td>
+                                <td>{reclamation.equipmentDowntime}</td>
+                                <td>{reclamation.machine}</td>
+                                <td>{reclamation.serviceCompany}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <Modal
+                className="modal"
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Object Info Modal"
+            >
+                <div className="info">
+                    <h2>{objectInfo.title}</h2>
+                    <p>{objectInfo.description}</p>
+                </div>
+                <MyButton onClick={closeModal}>Закрыть</MyButton>
+            </Modal>
+        </div>
     )
 }

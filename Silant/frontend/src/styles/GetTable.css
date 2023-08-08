@@ -1,0 +1,50 @@
+.table-wrapper {
+  width: 1366px;
+  margin: auto;
+  padding: 0 5px 5px;
+  font-size: 14px;
+}
+
+.table {
+  width: 100%;
+}
+
+.table th, table td {
+  text-align: center;
+  padding: 2px;
+}
+
+.table th {
+  background: #f5d7bf;
+}
+
+.table tr:nth-child(even) {
+  background: #f5d7bf;
+}
+
+.modal {
+  width: 400px;
+  height: auto;
+  text-align: center;
+  padding: 15px;
+  border-radius: 7px;
+  border: 2px solid #163E6C;
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #163E6C;
+  background: #EBE6D6;
+}
+
+.custom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

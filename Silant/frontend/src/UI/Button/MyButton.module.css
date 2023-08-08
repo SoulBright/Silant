@@ -8,5 +8,6 @@
     border: 2px, solid, #163E6C;
     cursor: pointer;
     user-select: none;
+    white-space: nowrap;
     font-family: 'Astra-Sans Regular';
 }

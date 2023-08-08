@@ -90,7 +90,7 @@ class Machine(models.Model):
     deliveryAddress = models.CharField(
         'Адрес поставки (эксплуатации)',
         max_length=128)   # Адрес поставки (эксплуатации)
-    picking = models.CharField(
+    picking = models.TextField(
         'Комплектация (доп. опции)',
         max_length=1024)    # Комплектация (доп. опции)
     client = models.ForeignKey(
@@ -303,3 +303,4 @@ class RecoveryMethod(models.Model):
     class Meta:
         verbose_name = 'Способ восстановления'
         verbose_name_plural = 'Способы восстановления'
+

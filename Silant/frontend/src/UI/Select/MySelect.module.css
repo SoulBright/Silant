@@ -1,11 +1,24 @@
-.mySelect {
+.mySelectContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .mySelect {
+    width: 160px;
     padding: 5px;
     margin: 5px;
-    color: #163E6C;
+    color: #163e6c;
     font-size: 14px;
-    background-color: #EBE6D6;
-    border: 2px solid #163E6C;
+    background-color: #f5d7bf;
+    border: 2px solid #163e6c;
     cursor: pointer;
     user-select: none;
     font-family: 'Astra-Sans Regular';
-}
+  }

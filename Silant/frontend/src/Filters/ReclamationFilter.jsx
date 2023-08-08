@@ -6,6 +6,8 @@ import ReclamationService from '../API/ReclamationService';
 import MySelect from '../UI/Select/MySelect';
 import MyButton from '../UI/Button/MyButton';
 
+import './Filters.css'
+
 export default function ReclamationFilter() {
 
     const [filterValues, setFilterValues] = useState({
@@ -71,38 +73,41 @@ export default function ReclamationFilter() {
     };
 
     return (
-        <div>
-            <form onSubmit={handleFilterSubmit}>
-                <MySelect
-                    label="Узел отказа"
-                    name="failureJuncture"
-                    value={filterValues.failureJuncture}
-                    options={failureJuncture}
-                    field={'title'}
-                    onChange={handleFilterChange}
-                />
-                <br />
-                <MySelect
-                    label="Способ восстановления"
-                    name="recoveryMethod"
-                    value={filterValues.recoveryMethod}
-                    options={recoveryMethod}
-                    field={'title'}
-                    onChange={handleFilterChange}
-                />
-                <br />
-                <MySelect
-                    label="Сервисная компания"
-                    name="serviceCompany"
-                    value={filterValues.serviceCompany}
-                    options={serviceCompany}
-                    field={'serviceCompanyUser'}
-                    onChange={handleFilterChange}
-                />
-                <br />
-                <MyButton type="submit">Применить фильтры</MyButton>
-                <MyButton onClick={handleResetFilters}>Сбросить фильтры</MyButton>
-            </form>
-        </div>
+        <div className='filters'>
+            <form className='filters-form' onSubmit={handleFilterSubmit}>
+                <div className="select">
+                    <MySelect
+                        label="Узел отказа"
+                        name="failureJuncture"
+                        value={filterValues.failureJuncture}
+                        options={failureJuncture}
+                        field={'title'}
+                        onChange={handleFilterChange}
+                    />
+
+                    <MySelect
+                        label="Способ восстановления"
+                        name="recoveryMethod"
+                        value={filterValues.recoveryMethod}
+                        options={recoveryMethod}
+                        field={'title'}
+                        onChange={handleFilterChange}
+                    />
+
+                    <MySelect
+                        label="Сервисная компания"
+                        name="serviceCompany"
+                        value={filterValues.serviceCompany}
+                        options={serviceCompany}
+                        field={'serviceCompanyUser'}
+                        onChange={handleFilterChange}
+                    />
+                </div>
+                <div className="button">
+                    <MyButton type="submit">Применить фильтры</MyButton>
+                    <MyButton onClick={handleResetFilters}>Сбросить все фильтры</MyButton>
+                </div>
+            </form >
+        </div >
     )
 }
