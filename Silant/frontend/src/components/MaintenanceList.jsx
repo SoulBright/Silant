@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 
-import MaintenanceService from '../API/MaintenanceService'
-import MaintenanceFilters from '../Filters/MaintenanceFilters'
-
 import MyButton from '../UI/Button/MyButton'
 import ListService from '../API/ListService'
 
 import '../styles/GetTable.css'
 
-export default function MaintenanceList() {
+export default function MaintenanceList({filteredMaintenance}) {
+    console.log(`В данный момент в пропсе${filteredMaintenance}`)
     const [maintenances, setMaintenance] = useState([]);
+    console.log(`В данный момент в массиве ${maintenances}`)
     const [objectInfo, setObjectInfo] = useState({});
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedType, setSelectedType] = useState('');
     const [selectedMaintenanceOrg, setSelectedMaintenanceOrg] = useState('');
 
     useEffect(() => {
-        if (!maintenances.length) {
-            MaintenanceService.getAll().then(resp => { setMaintenance(resp.data) })
-        }
-    }, [maintenances])
+        setMaintenance(filteredMaintenance);
+    }, [filteredMaintenance]);
 
     useEffect(() => {
         if (selectedType) {
@@ -68,7 +65,7 @@ export default function MaintenanceList() {
             <div>
                 <h1 style={{ textAlign: 'center' }}>Информация о проведённых ТО вашей техники</h1>
             </div>
-            <MaintenanceFilters />
+            {maintenances.length ? (
             <div className='table-wrapper'>
                 <table className='table'>
                     <thead>
@@ -107,6 +104,9 @@ export default function MaintenanceList() {
                     </tbody>
                 </table>
             </div >
+                        ) : (
+                            <h3 style={{color: '#D20A11', textAlign: 'center' }}>ТО с выбранными параметрами отсутствуют</h3>
+                        )}
             <Modal
                 className="modal"
                 isOpen={modalIsOpen}

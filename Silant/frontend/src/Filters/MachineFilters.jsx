@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import SelectListService from '../API/SelectListService';
 import MachineService from '../API/MachineService';
 
+import MachineList from '../components/MachineList';
+
 import MySelect from '../UI/Select/MySelect';
 import MyButton from '../UI/Button/MyButton';
 
@@ -17,12 +19,20 @@ export default function MachineFilters() {
         controlledBridgeModel: '',
     });
 
+    const [filteredMachines, setfilteredMachines] = useState('');
+
     const [equipmentModels, setEquipmentModels] = useState([]);
     const [engineMakes, setEngineMakes] = useState([]);
     const [transmissionModels, setTransmissionModels] = useState([]);
     const [drivingBridgeModels, setDrivingBridgeModels] = useState([]);
     const [controlledBridgeModels, setControlledBridgeModels] = useState([]);
     const [resetValues, setResetValues] = useState(false);
+
+    useEffect(() => {
+        if (filteredMachines==='') {
+            MachineService.getAll().then(resp => { setfilteredMachines(resp.data) })
+        }
+    }, [filteredMachines])
 
     useEffect(() => {
 
@@ -72,6 +82,7 @@ export default function MachineFilters() {
         event.preventDefault();
         try {
             const response = await MachineService.getWithFilters(filterValues);
+            setfilteredMachines(response.data)
             console.log(response.data);
         } catch (error) {
             console.error(error);
@@ -79,6 +90,7 @@ export default function MachineFilters() {
     };
 
     const handleResetFilters = () => {
+        setfilteredMachines('')
         setResetValues(true);
     };
 
@@ -130,6 +142,7 @@ export default function MachineFilters() {
                 <MyButton type="submit">Применить фильтры</MyButton>
                 <MyButton onClick={handleResetFilters}>Сбросить все фильтры</MyButton>
             </div>
+            <MachineList filteredMachines={filteredMachines} />
         </form>
     )
 }

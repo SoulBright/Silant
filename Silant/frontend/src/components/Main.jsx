@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 
-import MachineList from "./MachineList";
-import MaintenanceList from "./MaintenanceList"
-import ReclamationList from "./ReclamationList";
-import MyButton from "../UI/Button/MyButton"
+import MachineFilters from "../Filters/MachineFilters";
+import MaintenanceFilters from "../Filters/MaintenanceFilters";
+import ReclamationFilters from "../Filters/ReclamationFilter";
+
+import MyButton from "../UI/Button/MyButton";
 
 import '../styles/Main.css'
 
@@ -46,9 +47,9 @@ export default function Main() {
                 </MyButton>
             </div>
             <hr />
-            {activeTab === "MachineList" && <MachineList />}
-            {activeTab === "MaintenanceList" && <MaintenanceList />}
-            {activeTab === "ReclamationList" && <ReclamationList />}
+            {activeTab === "MachineList" && <MachineFilters />}
+            {activeTab === "MaintenanceList" && <MaintenanceFilters />}
+            {activeTab === "ReclamationList" && <ReclamationFilters />}
         </div>
     )
 }

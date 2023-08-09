@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal'
 
-import MachineService from '../API/MachineService';
-import MachineFilters from '../Filters/MachineFilters';
-
 import MyButton from '../UI/Button/MyButton'
 import ListService from '../API/ListService'
 
-export default function MachineList() {
+export default function MachineList({filteredMachines}) {
     const [machines, setMachines] = useState([])
     const [objectInfo, setObjectInfo] = useState({});
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -18,10 +15,8 @@ export default function MachineList() {
     const [selectedControlledBridgeModel, setSelectedControlledBridgeModele] = useState('');
 
     useEffect(() => {
-        if (!machines.length) {
-            MachineService.getAll().then(resp => { setMachines(resp.data) })
-        }
-    }, [machines])
+        setMachines(filteredMachines);
+    }, [filteredMachines]);
 
     useEffect(() => {
         if (selectedEquipmentModel) {
@@ -122,7 +117,7 @@ export default function MachineList() {
             <div>
                 <h1 style={{ textAlign: 'center' }}>Информация о комплектации и технических характеристиках вашей техники</h1>
             </div>
-            <MachineFilters />
+            {machines.length ? (
             <div className='table-wrapper'>
                 <table className='table'>
                     <thead>
@@ -194,6 +189,9 @@ export default function MachineList() {
                     </tbody>
                 </table>
             </div>
+                        ) : (
+                            <h3 style={{color: '#D20A11', textAlign: 'center' }}>Машины с выбранными параметрами отсутствуют</h3>
+                        )}
             <Modal
                 className="modal"
                 isOpen={modalIsOpen}

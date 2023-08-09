@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import SelectListService from '../API/SelectListService';
 import ReclamationService from '../API/ReclamationService';
 
+import ReclamationList from '../components/ReclamationList';
+
 import MySelect from '../UI/Select/MySelect';
 import MyButton from '../UI/Button/MyButton';
 
@@ -16,10 +18,18 @@ export default function ReclamationFilter() {
         serviceCompany: '',
     });
 
+    const [filteredReclamations, setFilteredReclamations] = useState('');
+
     const [failureJuncture, setFailureJuncture] = useState([]);
     const [recoveryMethod, setRecoveryMethod] = useState([]);
     const [serviceCompany, setServiceCompany] = useState([]);
     const [resetValues, setResetValues] = useState(false);
+
+    useEffect(() => {
+        if (filteredReclamations==='') {
+            ReclamationService.getAll().then(resp => { setFilteredReclamations(resp.data) })
+        }
+    }, [filteredReclamations])
 
     useEffect(() => {
 
@@ -61,14 +71,16 @@ export default function ReclamationFilter() {
     const handleFilterSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await ReclamationService.getWithFilters(filterValues);
-            console.log(response.data);
+          const response = await ReclamationService.getWithFilters(filterValues);
+          setFilteredReclamations(response.data);
+          console.log(`Ответ от сервера ${response.data}`);
         } catch (error) {
-            console.error(error);
+          console.error(error);
         }
-    };
+      };
 
     const handleResetFilters = () => {
+        setFilteredReclamations('')
         setResetValues(true);
     };
 
@@ -108,6 +120,7 @@ export default function ReclamationFilter() {
                     <MyButton onClick={handleResetFilters}>Сбросить все фильтры</MyButton>
                 </div>
             </form >
+            <ReclamationList filteredReclamations={filteredReclamations} />
         </div >
     )
 }

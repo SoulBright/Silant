@@ -4,6 +4,8 @@ import MachineService from '../API/MachineService';
 import SelectListService from '../API/SelectListService';
 import MaintenanceService from '../API/MaintenanceService';
 
+import MaintenanceList from '../components/MaintenanceList';
+
 import MySelect from '../UI/Select/MySelect';
 import MyButton from '../UI/Button/MyButton';
 
@@ -17,10 +19,18 @@ export default function MaintenanceFilters() {
         serviceCompany: '',
     });
 
+    const [filteredMaintenance, setfilteredMaintenance] = useState('');
+
     const [type, setType] = useState([]);
     const [machine, setMachine] = useState([]);
     const [serviceCompany, setServiceCompany] = useState([]);
     const [resetValues, setResetValues] = useState(false);
+
+    useEffect(() => {
+        if (filteredMaintenance==='') {
+            MaintenanceService.getAll().then(resp => { setfilteredMaintenance(resp.data) })
+        }
+    }, [filteredMaintenance])
 
     useEffect(() => {
 
@@ -63,13 +73,15 @@ export default function MaintenanceFilters() {
         event.preventDefault();
         try {
             const response = await MaintenanceService.getWithFilters(filterValues);
-            console.log(response.data);
+            setfilteredMaintenance(response.data);
+            console.log(`Ответ от сервера ${response.data}`);
         } catch (error) {
             console.error(error);
         }
     };
 
     const handleResetFilters = () => {
+        setfilteredMaintenance('')
         setResetValues(true);
     };
 
@@ -109,6 +121,7 @@ export default function MaintenanceFilters() {
                     <MyButton onClick={handleResetFilters}>Сбросить все фильтры</MyButton>
                 </div>
             </form>
+            <MaintenanceList filteredMaintenance={filteredMaintenance} />
         </div>
     )
 }
