@@ -4,6 +4,8 @@ import Modal from 'react-modal'
 import MyButton from '../UI/Button/MyButton'
 import ListService from '../API/ListService'
 
+import '../styles/GetTable.css'
+
 export default function MachineList({filteredMachines}) {
     const [machines, setMachines] = useState([])
     const [objectInfo, setObjectInfo] = useState({});

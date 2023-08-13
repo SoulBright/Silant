@@ -5,9 +5,11 @@ import MachineService from '../API/MachineService';
 import MyInput from '../UI/Input/MyInput';
 import MyButton from '../UI/Button/MyButton';
 
+import '../styles/GetTable.css'
+
 export default function SearchMachines() {
     const [serialNumber, setSerialNumber] = useState('');
-    const [machineData, setMachineData] = useState(null);
+    const [machineData, setMachineData] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleSerialNumberChange = (event) => {
@@ -16,6 +18,7 @@ export default function SearchMachines() {
 
     const handleSearch = async () => {
         if (serialNumber.trim() === '') {
+            setMachineData('')
             setErrorMessage('Введите серийный номер машины');
             return;
         }
@@ -27,18 +30,22 @@ export default function SearchMachines() {
                 setMachineData(data[0]);
                 setErrorMessage('');
             } else {
-                setMachineData(null);
+                setMachineData('');
                 setErrorMessage('Данных о машине с таким серийным номером нет в системе');
             }
         } catch (error) {
             console.error('Ошибка при выполнении запроса:', error);
-            setMachineData(null);
+            setMachineData('');
             setErrorMessage('Произошла ошибка при выполнении запроса');
         }
     };
 
     return (
         <div>
+            <div>
+                <h1 style={{ textAlign: 'center', color: '#163E6C' }}>Вы можете получить информацию о техникe по серийному номеру</h1>
+            </div>
+            <div className="search-wrapper">
             <MyInput
                 type="text"
                 placeholder="Введите серийный № машины"
@@ -46,10 +53,11 @@ export default function SearchMachines() {
                 onChange={handleSerialNumberChange}
             />
             <MyButton onClick={handleSearch}>Найти</MyButton>
+            </div>
             {machineData && (
-                <div>
-                    <table>
-                        <tbody>
+                <div className='table-wrapper'>
+                    <table className='table'>
+                        <thead style={{color: '#163E6C' }}>
                             <tr>
                                 <th>Зав. № машины</th>
                                 <th>Модель техники</th>
@@ -62,6 +70,8 @@ export default function SearchMachines() {
                                 <th>Модель управляемого моста</th>
                                 <th>Зав. № управляемого моста</th>
                             </tr>
+                        </thead>
+                        <tbody>
                             <tr key={machineData.id}>
                                 <td>{machineData.machineSerialNumber}</td>
                                 <td>{machineData.equipmentModel}</td>
@@ -79,7 +89,7 @@ export default function SearchMachines() {
                 </div>
             )}
             {errorMessage && (
-                <p>{errorMessage}</p>
+                <h3 style={{ textAlign: 'center' }}>{errorMessage}</h3>
             )}
         </div>
     );

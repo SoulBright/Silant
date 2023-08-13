@@ -23,6 +23,12 @@ class MachineSerializer(serializers.ModelSerializer):
 
 
 class UnauthenticatedMachineSerializer(MachineCreateSerializer):
+    equipmentModel = serializers.StringRelatedField(source='equipmentModel.title')
+    engineMake = serializers.StringRelatedField(source='engineMake.title')
+    transmissionModel = serializers.StringRelatedField(source='transmissionModel.title')
+    drivingBridgeModel = serializers.StringRelatedField(source='drivingBridgeModel.title')
+    controlledBridgeModel = serializers.StringRelatedField(source='controlledBridgeModel.title')
+
     class Meta:
         model = Machine
         fields = ('machineSerialNumber',

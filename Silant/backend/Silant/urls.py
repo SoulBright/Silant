@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('api/', include('silant_backend.urls')),
+    path('api/drf-auth/', include('rest_framework.urls')),
     path('api/login/', LoginView.as_view()),
     path('api/logout/', LogoutView.as_view()),
     path('api/check-auth/', AuthStatusView.as_view()),

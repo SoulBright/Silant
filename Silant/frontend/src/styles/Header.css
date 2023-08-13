@@ -15,6 +15,10 @@
     justify-content: space-around;
 }
 
+.with-margin {
+    margin-left: 200px;
+  }
+
 .title {
     display: flex;
     margin-right: 33%;

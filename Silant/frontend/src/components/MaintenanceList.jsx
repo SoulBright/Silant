@@ -7,9 +7,7 @@ import ListService from '../API/ListService'
 import '../styles/GetTable.css'
 
 export default function MaintenanceList({filteredMaintenance}) {
-    console.log(`В данный момент в пропсе${filteredMaintenance}`)
     const [maintenances, setMaintenance] = useState([]);
-    console.log(`В данный момент в массиве ${maintenances}`)
     const [objectInfo, setObjectInfo] = useState({});
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedType, setSelectedType] = useState('');

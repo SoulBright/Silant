@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+import { login } from '../authReducer';
+
 import MyInput from '../UI/Input/MyInput';
 import MyButton from "../UI/Button/MyButton"
 
 import "../styles/Login.css"
 
-const Login = () => {
+export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,11 +26,12 @@ const Login = () => {
     });
 
     if (response.ok) {
-      // Авторизация прошла успешно
-      // Вы можете выполнить дополнительные действия здесь, например, перенаправление пользователя
+      const data = await response.json();
+      const token = data.authToken;
+    
+      dispatch(login(token));
       console.log('Успешная авторизация!');
     } else {
-      // Возникла ошибка при авторизации
       console.error('Не удалось авторизоваться!');
     }
   };
@@ -46,5 +52,3 @@ const Login = () => {
     </form>
   );
 };
-
-export default Login;

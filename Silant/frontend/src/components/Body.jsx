@@ -1,16 +1,17 @@
-import React from 'react'
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import Main from "./Main";
 import SearchMachines from "./SearchMachines";
 
-
-import "../styles/Body.css"
+import "../styles/Body.css";
 
 export default function Body() {
-    return (
-        <div className='body'>
-            {/* <SearchMachines /> */}
-            <Main />
-        </div>
-    )
+  const isUserAuthenticated = useSelector(state => state.auth.isAuthenticated);
+
+  return (
+    <div className='body'>
+      {isUserAuthenticated ? <Main /> : <SearchMachines />}
+    </div>
+  );
 }

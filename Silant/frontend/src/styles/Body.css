@@ -1,10 +1,11 @@
 .body {
     width: 1366px;
-    min-height: 490px;
+    min-height: auto;
     margin-top: 14px;
     color: #D20A11;
     background-color: #EBE6D6;
     border-radius: 7px;
     display: flex;
     align-items: flex-end;
+    justify-content: center;
 }

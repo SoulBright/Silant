@@ -4,10 +4,10 @@ import Modal from 'react-modal'
 import MyButton from '../UI/Button/MyButton'
 import ListService from '../API/ListService'
 
+import '../styles/GetTable.css'
+
 export default function ReclamationList({ filteredReclamations }) {
-    console.log(`В данный момент в пропсе${filteredReclamations}`)
     const [reclamations, setReclamation] = useState([]);
-    console.log(`В данный момент в массиве ${reclamations}`)
     const [objectInfo, setObjectInfo] = useState({});
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedFailureJuncture, setSelectedFailureJuncture] = useState('');
