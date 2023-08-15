@@ -1,10 +1,6 @@
 from rest_framework import viewsets, permissions
 from rest_framework.filters import SearchFilter
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
-
-from django.contrib.auth import authenticate, login, logout
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -87,42 +83,6 @@ class ReclamationAPIView(viewsets.ModelViewSet):
         if self.action == 'create':
             return ReclamationCreateSerializer
         return super().get_serializer_class()
-
-
-class LoginView(APIView):
-    """Вход пользователя"""
-
-    def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            refresh = RefreshToken.for_user(user)
-
-            print(f'пользователь {user.username} успешно авторизован! Токен доступа {str(refresh.access_token)}')
-            return Response({'message': 'Successfully logged in.', 'authToken': str(refresh.access_token)})
-        else:
-            return Response({'message': 'Invalid credentials.'}, status=400)
-
-
-class LogoutView(APIView):
-    """Выход пользователя"""
-
-    def post(self, request):
-        logout(request)
-        return Response({'message': 'Successfully logged out.'})
-
-
-class AuthStatusView(APIView):
-    """Проверка статуса аутентификаци"""
-
-    def get(self, request):
-        if request.user.is_authenticated:
-            return Response({'message': f'{request.user.username} is Authenticated'})
-        else:
-            return Response({'message': 'Not authenticated'})
 
 
 class EquipmentModelAPIView(viewsets.ModelViewSet):

@@ -15,7 +15,7 @@ export default function Header() {
                 <img src={process.env.PUBLIC_URL + '/Images/logo.jpg'} alt='Логотип' />
             </div>
             <div className="h-container">
-                <div div className={`h-wrapper${isAuthenticated ? ' with-margin' : ''}`}>
+                <div className={`h-wrapper${isAuthenticated ? ' with-margin' : ''}`}>
                     <div className="contacts">
                         <h3> тел: +7-8352-20-12-09, telegram </h3>
                     </div>

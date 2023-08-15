@@ -12,6 +12,7 @@ export default function Logout() {
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
+    localStorage.removeItem('refreshToken');
     dispatch(logout());
   };
 

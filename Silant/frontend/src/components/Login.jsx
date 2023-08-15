@@ -1,43 +1,39 @@
 import React, { useState } from 'react';
+import axios from "../axiosConfig";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useDispatch } from 'react-redux';
 import { login } from '../authReducer';
 
 import MyInput from '../UI/Input/MyInput';
-import MyButton from "../UI/Button/MyButton"
-
-import "../styles/Login.css"
+import MyButton from '../UI/Button/MyButton';
+import '../styles/Login.css';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
   const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const response = await fetch('http://127.0.0.1:8000/api/login/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const response = await axios.post('/token/', {
+        username: username,
+        password: password,
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      const token = data.authToken;
-    
-      dispatch(login(token));
-      console.log('Успешная авторизация!');
-    } else {
-      console.error('Не удалось авторизоваться!');
+      const data = response.data;
+      dispatch(login(data));
+    } catch (error) {
+      toast.error('Вы ввели неверные данные');
     }
   };
 
   return (
-    <form className='login' onSubmit={handleLogin}>
+    <form className="login" onSubmit={handleLogin}>
       <label>
         Имя пользователя:
         <MyInput type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -49,6 +45,18 @@ export default function Login() {
       </label>
       <br />
       <MyButton type="submit">Войти</MyButton>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
     </form>
   );
-};
+}
