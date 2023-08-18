@@ -19,6 +19,10 @@ export default function authReducer(state = initialState, action) {
     case 'LOGOUT':
       localStorage.removeItem('authToken');
       localStorage.removeItem('refreshToken');
+      localStorage.removeItem('username');
+      localStorage.removeItem('client');
+      localStorage.removeItem('company');
+      localStorage.removeItem('manager');
       return {
         ...state,
         isAuthenticated: false,

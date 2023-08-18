@@ -4,9 +4,11 @@ import Modal from 'react-modal'
 import MyButton from '../UI/Button/MyButton'
 import ListService from '../API/ListService'
 
+import AddListsObjects from '../Lists/AddListsObjects.jsx'
+
 import '../styles/GetTable.css'
 
-export default function MaintenanceList({filteredMaintenance}) {
+export default function MaintenanceList({ filteredMaintenance }) {
     const [maintenances, setMaintenance] = useState([]);
     const [objectInfo, setObjectInfo] = useState({});
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -63,48 +65,52 @@ export default function MaintenanceList({filteredMaintenance}) {
             <div>
                 <h1 style={{ textAlign: 'center' }}>Информация о проведённых ТО вашей техники</h1>
             </div>
+            <div className="list-buttons">
+                <AddListsObjects url={'maintenance-type'} label={'Добавить Вид ТО'} />
+                <AddListsObjects url={'maintenance-organization'} label={'Добавить Организацию, проводившую ТО'} />
+            </div>
             {maintenances.length ? (
-            <div className='table-wrapper'>
-                <table className='table'>
-                    <thead>
-                        <tr>
-                            <th>Вид ТО</th>
-                            <th>Дата проведения ТО</th>
-                            <th>Наработка, м/час</th>
-                            <th>№ заказ-наряда</th>
-                            <th>Дата заказ-наряда</th>
-                            <th>Организация, проводившая ТО</th>
-                            <th>Машина</th>
-                            <th>Сервисная компания</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {maintenances.map(maintenance => (
-                            <tr key={maintenance.id}>
-                                <td
-                                    style={{ cursor: 'pointer', color: 'blue' }}
-                                    onClick={() => handleTypeClick(maintenance.type)}>
-                                    {maintenance.type}
-                                </td>
-                                <td>{maintenance.date}</td>
-                                <td>{maintenance.operatingTime}</td>
-                                <td>{maintenance.workOrder}</td>
-                                <td>{maintenance.workOrderDate}</td>
-                                <td
-                                    style={{ cursor: 'pointer', color: 'blue' }}
-                                    onClick={() => handleOrgClick(maintenance.maintenanceOrganization)}>
-                                    {maintenance.maintenanceOrganization}
-                                </td>
-                                <td>{maintenance.machine}</td>
-                                <td>{maintenance.serviceCompany}</td>
+                <div className='table-wrapper'>
+                    <table className='table'>
+                        <thead>
+                            <tr>
+                                <th>Вид ТО</th>
+                                <th>Дата проведения ТО</th>
+                                <th>Наработка, м/час</th>
+                                <th>№ заказ-наряда</th>
+                                <th>Дата заказ-наряда</th>
+                                <th>Организация, проводившая ТО</th>
+                                <th>Машина</th>
+                                <th>Сервисная компания</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div >
-                        ) : (
-                            <h3 style={{color: '#D20A11', textAlign: 'center' }}>ТО с выбранными параметрами отсутствуют</h3>
-                        )}
+                        </thead>
+                        <tbody>
+                            {maintenances.map(maintenance => (
+                                <tr key={maintenance.id}>
+                                    <td
+                                        style={{ cursor: 'pointer', color: 'blue' }}
+                                        onClick={() => handleTypeClick(maintenance.type)}>
+                                        {maintenance.type}
+                                    </td>
+                                    <td>{maintenance.date}</td>
+                                    <td>{maintenance.operatingTime}</td>
+                                    <td>{maintenance.workOrder}</td>
+                                    <td>{maintenance.workOrderDate}</td>
+                                    <td
+                                        style={{ cursor: 'pointer', color: 'blue' }}
+                                        onClick={() => handleOrgClick(maintenance.maintenanceOrganization)}>
+                                        {maintenance.maintenanceOrganization}
+                                    </td>
+                                    <td>{maintenance.machine}</td>
+                                    <td>{maintenance.serviceCompany}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div >
+            ) : (
+                <h3 style={{ color: '#D20A11', textAlign: 'center' }}>ТО с выбранными параметрами отсутствуют</h3>
+            )}
             <Modal
                 className="modal"
                 isOpen={modalIsOpen}

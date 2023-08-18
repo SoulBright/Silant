@@ -13,6 +13,10 @@ export default function Logout() {
   const handleLogout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('username');
+    localStorage.removeItem('client');
+    localStorage.removeItem('company');
+    localStorage.removeItem('manager');
     dispatch(logout());
   };
 

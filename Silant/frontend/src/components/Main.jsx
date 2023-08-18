@@ -10,6 +10,7 @@ import '../styles/Main.css'
 
 export default function Main() {
     const [activeTab, setActiveTab] = useState('MachineList')
+    const user = localStorage.getItem('username');
 
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
@@ -17,6 +18,7 @@ export default function Main() {
 
     return (
         <div className="main">
+            <h1 style={{ display: 'flex', justifyContent: 'center' }}>Здравствуйте {user}</h1>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <MyButton
                     onClick={() => handleTabClick("MachineList")}

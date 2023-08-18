@@ -43,6 +43,7 @@ export default function SearchMachines() {
     return (
         <div>
             <div>
+                <h2 style={{ textAlign: 'center', color: '#D20A11' }}>Авторизуйтесь для получения подробной информации о вашей технике</h2>
                 <h1 style={{ textAlign: 'center', color: '#163E6C' }}>Вы можете получить информацию о техникe по серийному номеру</h1>
             </div>
             <div className="search-wrapper">

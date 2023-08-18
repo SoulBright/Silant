@@ -4,6 +4,8 @@ import Modal from 'react-modal'
 import MyButton from '../UI/Button/MyButton'
 import ListService from '../API/ListService'
 
+import AddListsObjects from '../Lists/AddListsObjects.jsx'
+
 import '../styles/GetTable.css'
 
 export default function ReclamationList({ filteredReclamations }) {
@@ -62,6 +64,10 @@ export default function ReclamationList({ filteredReclamations }) {
             <div>
                 <h1 style={{ textAlign: 'center' }}>Информация о рекламациях вашей техники</h1>
             </div>
+            <div className="list-buttons">
+                <AddListsObjects url={'failure-juncture'} label={'Добавить Узел отказа'} />
+                <AddListsObjects url={'recovery-method'} label={'Добавить Способ восстановления'} />
+            </div>
             {reclamations.length ? (
                 <div className='table-wrapper'>
                     <table className='table'>
@@ -106,7 +112,7 @@ export default function ReclamationList({ filteredReclamations }) {
                     </table>
                 </div>
             ) : (
-                <h3 style={{color: '#D20A11', textAlign: 'center' }}>Рекламации с выбранными параметрами отсутствуют</h3>
+                <h3 style={{ color: '#D20A11', textAlign: 'center' }}>Рекламации с выбранными параметрами отсутствуют</h3>
             )}
             <Modal
                 className="modal"

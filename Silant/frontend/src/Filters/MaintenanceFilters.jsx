@@ -74,7 +74,6 @@ export default function MaintenanceFilters() {
         try {
             const response = await MaintenanceService.getWithFilters(filterValues);
             setfilteredMaintenance(response.data);
-            console.log(`Ответ от сервера ${response.data}`);
         } catch (error) {
             console.error(error);
         }

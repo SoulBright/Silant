@@ -83,7 +83,6 @@ export default function MachineFilters() {
         try {
             const response = await MachineService.getWithFilters(filterValues);
             setfilteredMachines(response.data)
-            console.log(response.data);
         } catch (error) {
             console.error(error);
         }

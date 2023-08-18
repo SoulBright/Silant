@@ -3,8 +3,10 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { updateAuthToken } from '../authReducer';
 
+
 export default function RefreshToken({ onTokenRefreshed }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -22,8 +24,11 @@ export default function RefreshToken({ onTokenRefreshed }) {
           dispatch(updateAuthToken(newToken));
           localStorage.setItem('authToken', newToken);
           onTokenRefreshed();
+          setIsError(false);
+
         } catch (error) {
           console.error('Произошла ошибка при обновлении токена:', error);
+          setIsError(true);
         } finally {
           setIsLoading(false);
         }
@@ -35,7 +40,7 @@ export default function RefreshToken({ onTokenRefreshed }) {
 
     refreshToken();
 
-    const intervalId = setInterval(refreshToken, 1 * 5 * 1000);
+    const intervalId = setInterval(refreshToken, 59 * 60 * 1000);
 
     return () => {
       clearInterval(intervalId);
@@ -43,7 +48,11 @@ export default function RefreshToken({ onTokenRefreshed }) {
   }, [dispatch, onTokenRefreshed]);
 
   if (isLoading) {
-    return;
+    return null;
+  }
+
+  if (isError) {
+    return null;
   }
 
   return null;

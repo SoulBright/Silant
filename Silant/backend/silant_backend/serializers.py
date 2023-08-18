@@ -130,3 +130,21 @@ class RecoveryMethodSerializer(serializers.ModelSerializer):
         model = RecoveryMethod
         fields = '__all__'
 
+
+class UserSerializer(serializers.ModelSerializer):
+    client = serializers.SerializerMethodField()
+    company = serializers.SerializerMethodField()
+    manager = serializers.SerializerMethodField()
+
+    def get_client(self, obj):
+        return Client.objects.filter(clientUser=obj).exists()
+
+    def get_company(self, obj):
+        return ServiceCompany.objects.filter(serviceCompanyUser=obj).exists()
+
+    def get_manager(self, obj):
+        return Manager.objects.filter(managerUser=obj).exists()
+
+    class Meta:
+        model = User
+        fields = ['username', 'client', 'company', 'manager']

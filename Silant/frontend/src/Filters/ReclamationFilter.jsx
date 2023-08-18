@@ -73,7 +73,6 @@ export default function ReclamationFilter() {
         try {
           const response = await ReclamationService.getWithFilters(filterValues);
           setFilteredReclamations(response.data);
-          console.log(`Ответ от сервера ${response.data}`);
         } catch (error) {
           console.error(error);
         }

@@ -29,3 +29,17 @@ class ReclamationAPIPermissions(permissions.BasePermission):
             elif hasattr(user, 'manager'):
                 return request.method in ['GET', 'POST']
             return False
+
+
+class ListsAPIPermissions(permissions.BasePermission):
+    """Права доступа к спискам"""
+    def has_permission(self, request, view):
+        user = request.user
+        if user.is_authenticated:
+            if hasattr(user, 'client'):
+                return request.method == 'GET'
+            elif hasattr(user, 'servicecompany'):
+                return request.method in ['GET']
+            elif hasattr(user, 'manager'):
+                return request.method in ['GET', 'POST', 'PUT', 'DELETE']
+            return False

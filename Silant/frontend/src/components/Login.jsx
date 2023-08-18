@@ -26,37 +26,56 @@ export default function Login() {
       });
 
       const data = response.data;
-      dispatch(login(data));
-    } catch (error) {
-      toast.error('Вы ввели неверные данные');
-    }
-  };
+      const token = data.access
 
-  return (
-    <form className="login" onSubmit={handleLogin}>
-      <label>
-        Имя пользователя:
-        <MyInput type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Пароль:
-        <MyInput type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </label>
-      <br />
-      <MyButton type="submit">Войти</MyButton>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover={false}
-        theme="light"
-      />
-    </form>
-  );
-}
+          try {
+            const response = await axios.post('http://127.0.0.1:8000/api/get-user', {
+              access: token
+            });
+
+            const { username, client, company, manager } = response.data;
+
+            localStorage.setItem('username', username);
+            localStorage.setItem('client', client);
+            localStorage.setItem('company', company);
+            localStorage.setItem('manager', manager);
+
+          } catch (error) {
+            console.error(error);
+          }
+
+        dispatch(login(data));
+      } catch (error) {
+        toast.error('Вы ввели неверные данные');
+      }
+    };
+
+    return (
+      <form className="login" onSubmit={handleLogin}>
+        <label>
+          Имя пользователя:
+          <MyInput type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        </label>
+        <br />
+        <label>
+          Пароль:
+          <MyInput type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </label>
+        <br />
+        <MyButton type="submit">Войти</MyButton>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="light"
+        />
+      </form>
+    );
+  }
+  
