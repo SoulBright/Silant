@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import Modal from 'react-modal'
 
 import MyButton from '../UI/Button/MyButton'
 import ListService from '../API/ListService'
 
-import AddListsObjects from '../Lists/AddListsObjects.jsx'
+import AddListsObjects from './AddListsObjects.jsx'
 
 import '../styles/GetTable.css'
 
 export default function MaintenanceList({ filteredMaintenance }) {
+    const isManager = useSelector(state => state.auth.manager);
+    
     const [maintenances, setMaintenance] = useState([]);
     const [objectInfo, setObjectInfo] = useState({});
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -63,12 +66,13 @@ export default function MaintenanceList({ filteredMaintenance }) {
     return (
         <div>
             <div>
-                <h1 style={{ textAlign: 'center' }}>Информация о проведённых ТО вашей техники</h1>
+                <h1 style={{ textAlign: 'center' }}>Информация о проведённых ТО</h1>
             </div>
+            {!isManager ? null :
             <div className="list-buttons">
                 <AddListsObjects url={'maintenance-type'} label={'Добавить Вид ТО'} />
                 <AddListsObjects url={'maintenance-organization'} label={'Добавить Организацию, проводившую ТО'} />
-            </div>
+            </div>}
             {maintenances.length ? (
                 <div className='table-wrapper'>
                     <table className='table'>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 import MachineFilters from "../Filters/MachineFilters";
 import MaintenanceFilters from "../Filters/MaintenanceFilters";
@@ -10,7 +11,9 @@ import '../styles/Main.css'
 
 export default function Main() {
     const [activeTab, setActiveTab] = useState('MachineList')
-    const user = localStorage.getItem('username');
+    const user = useSelector(state => state.auth.username);
+
+
 
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);

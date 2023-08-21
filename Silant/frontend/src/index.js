@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import store from './store';
 
@@ -8,7 +8,7 @@ import App from './App';
 
 const Root = () => {
   const [tokenRefreshed, setTokenRefreshed] = useState(false);
-  
+
   const handleTokenRefreshed = () => {
     setTokenRefreshed(true);
   };
@@ -21,4 +21,4 @@ const Root = () => {
   );
 };
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+createRoot(document.getElementById('root')).render(<Root />);

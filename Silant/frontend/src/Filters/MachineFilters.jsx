@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux';
+import Modal from 'react-modal'
 
 import SelectListService from '../API/SelectListService';
 import MachineService from '../API/MachineService';
 
 import MachineList from '../components/MachineList';
+import MachineForm from '../Form/MachineForm'
 
 import MySelect from '../UI/Select/MySelect';
 import MyButton from '../UI/Button/MyButton';
 
 import './Filters.css'
+import '../styles/GetTable.css';
 
 export default function MachineFilters() {
     const [filterValues, setFilterValues] = useState({
@@ -28,8 +32,12 @@ export default function MachineFilters() {
     const [controlledBridgeModels, setControlledBridgeModels] = useState([]);
     const [resetValues, setResetValues] = useState(false);
 
+    const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false);
+
+    const isManager = useSelector(state => state.auth.manager);
+
     useEffect(() => {
-        if (filteredMachines==='') {
+        if (filteredMachines === '') {
             MachineService.getAll().then(resp => { setfilteredMachines(resp.data) })
         }
     }, [filteredMachines])
@@ -93,6 +101,17 @@ export default function MachineFilters() {
         setResetValues(true);
     };
 
+    const handleCreateObject = () => {
+        setModalCreateIsOpen(true)
+    }
+
+    const closeCreateModal = () => {
+        setModalCreateIsOpen(false)
+        setfilteredMachines('')
+        setResetValues(true);
+    }
+
+
     return (
         <form className='filters-form' onSubmit={handleFilterSubmit}>
             <div className="select">
@@ -140,8 +159,20 @@ export default function MachineFilters() {
             <div className="button">
                 <MyButton type="submit">Применить фильтры</MyButton>
                 <MyButton onClick={handleResetFilters}>Сбросить все фильтры</MyButton>
+                {!isManager ? null :
+                <MyButton onClick={handleCreateObject}>Добавить Машину</MyButton>}
             </div>
-            <MachineList filteredMachines={filteredMachines} />
+            <Modal
+                className="modal-create"
+                isOpen={modalCreateIsOpen}
+                onRequestClose={closeCreateModal}
+                contentLabel="Object Crate Modal"
+            >
+                <MachineForm />
+                <hr />
+                <MyButton onClick={closeCreateModal}>Закрыть</MyButton>
+            </Modal>
+            <MachineList filteredMachines={filteredMachines}/>
         </form>
     )
 }

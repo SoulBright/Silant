@@ -48,6 +48,15 @@ class MaintenanceCreateSerializer(serializers.ModelSerializer):
         model = Maintenance
         fields = '__all__'
 
+    def create(self, validated_data):
+        user = self.context['request'].user
+        try:
+            service_company = ServiceCompany.objects.get(serviceCompanyUser=user)
+        except ServiceCompany.DoesNotExist:
+            return Maintenance.objects.create(**validated_data)
+        validated_data['serviceCompany'] = service_company
+        return Maintenance.objects.create(**validated_data)
+
 
 class MaintenanceSerializer(MaintenanceCreateSerializer):
     type = serializers.StringRelatedField(source='type.title')
@@ -61,12 +70,29 @@ class ReclamationCreateSerializer(serializers.ModelSerializer):
         model = Reclamation
         fields = '__all__'
 
+    def create(self, validated_data):
+        user = self.context['request'].user
+        try:
+            service_company = ServiceCompany.objects.get(serviceCompanyUser=user)
+        except ServiceCompany.DoesNotExist:
+            return Reclamation.objects.create(**validated_data)
+        validated_data['serviceCompany'] = service_company
+        return Reclamation.objects.create(**validated_data)
+
 
 class ReclamationSerializer(ReclamationCreateSerializer):
     failureJuncture = serializers.StringRelatedField(source='failureJuncture.title')
     recoveryMethod = serializers.StringRelatedField(source='recoveryMethod.title')
     machine = serializers.StringRelatedField(source='machine.machineSerialNumber')
     serviceCompany = serializers.StringRelatedField(source='serviceCompany.serviceCompanyUser')
+
+
+class ClientSerializer(serializers.ModelSerializer):
+    clientUser = serializers.StringRelatedField(source='clientUser.username')
+
+    class Meta:
+        model = Client
+        fields = '__all__'
 
 
 class ServiceCompanySerializer(serializers.ModelSerializer):

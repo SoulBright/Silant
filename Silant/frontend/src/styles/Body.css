@@ -1,5 +1,5 @@
 .body {
-    width: 1366px;
+    max-width: 1366px;
     min-height: auto;
     margin-top: 14px;
     color: #D20A11;

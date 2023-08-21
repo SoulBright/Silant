@@ -37,6 +37,21 @@
   background: #EBE6D6;
 }
 
+.modal-create {
+  width: auto;
+  height: auto;
+  text-align: center;
+  padding: 15px;
+  border-radius: 7px;
+  border: 2px solid #163E6C;
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #163E6C;
+  background: #EBE6D6;
+}
+
 .list-modal {
   width: auto;
   height: auto;

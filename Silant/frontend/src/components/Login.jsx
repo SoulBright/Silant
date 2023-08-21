@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useDispatch } from 'react-redux';
 import { login } from '../authReducer';
+import { updatePermissions } from '../authReducer';
 
 import MyInput from '../UI/Input/MyInput';
 import MyButton from '../UI/Button/MyButton';
@@ -33,12 +34,9 @@ export default function Login() {
               access: token
             });
 
-            const { username, client, company, manager } = response.data;
+            const permission = response.data;
 
-            localStorage.setItem('username', username);
-            localStorage.setItem('client', client);
-            localStorage.setItem('company', company);
-            localStorage.setItem('manager', manager);
+            dispatch(updatePermissions(permission))
 
           } catch (error) {
             console.error(error);

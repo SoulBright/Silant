@@ -36,6 +36,11 @@ export default class SelectListService {
         return response
     }
 
+    static async getClient() {
+        const response = await axios.get('/client/')
+        return response
+    }
+
     static async getServiceCompany() {
         const response = await axios.get('/service-company/')
         return response

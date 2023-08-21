@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import Modal from 'react-modal'
 
 import MyButton from '../UI/Button/MyButton'
 import ListService from '../API/ListService'
 
-import AddListsObjects from '../Lists/AddListsObjects.jsx'
+import AddListsObjects from './AddListsObjects.jsx'
 
 import '../styles/GetTable.css'
 
-export default function ReclamationList({ filteredReclamations }) {
+export default function ReclamationList({ filteredReclamations}) {
+    const isManager = useSelector(state => state.auth.manager);
+    
     const [reclamations, setReclamation] = useState([]);
     const [objectInfo, setObjectInfo] = useState({});
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -62,12 +65,13 @@ export default function ReclamationList({ filteredReclamations }) {
     return (
         <div>
             <div>
-                <h1 style={{ textAlign: 'center' }}>Информация о рекламациях вашей техники</h1>
+                <h1 style={{ textAlign: 'center' }}>Информация о рекламациях</h1>
             </div>
-            <div className="list-buttons">
-                <AddListsObjects url={'failure-juncture'} label={'Добавить Узел отказа'} />
-                <AddListsObjects url={'recovery-method'} label={'Добавить Способ восстановления'} />
-            </div>
+            {!isManager ? null :
+                <div className="list-buttons">
+                    <AddListsObjects url={'failure-juncture'} label={'Добавить Узел отказа'} />
+                    <AddListsObjects url={'recovery-method'} label={'Добавить Способ восстановления'} />
+                </div>}
             {reclamations.length ? (
                 <div className='table-wrapper'>
                     <table className='table'>

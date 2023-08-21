@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux';
+import Modal from 'react-modal'
 
 import SelectListService from '../API/SelectListService';
 import ReclamationService from '../API/ReclamationService';
 
 import ReclamationList from '../components/ReclamationList';
+import ReclamationForm from '../Form/ReclamationForm'
 
 import MySelect from '../UI/Select/MySelect';
 import MyButton from '../UI/Button/MyButton';
 
 import './Filters.css'
+import '../styles/GetTable.css';
 
 export default function ReclamationFilter() {
 
@@ -25,8 +29,12 @@ export default function ReclamationFilter() {
     const [serviceCompany, setServiceCompany] = useState([]);
     const [resetValues, setResetValues] = useState(false);
 
+    const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false);
+
+    const isClient = useSelector(state => state.auth.client);
+
     useEffect(() => {
-        if (filteredReclamations==='') {
+        if (filteredReclamations === '') {
             ReclamationService.getAll().then(resp => { setFilteredReclamations(resp.data) })
         }
     }, [filteredReclamations])
@@ -71,17 +79,26 @@ export default function ReclamationFilter() {
     const handleFilterSubmit = async (event) => {
         event.preventDefault();
         try {
-          const response = await ReclamationService.getWithFilters(filterValues);
-          setFilteredReclamations(response.data);
+            const response = await ReclamationService.getWithFilters(filterValues);
+            setFilteredReclamations(response.data);
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
+    };
 
     const handleResetFilters = () => {
         setFilteredReclamations('')
         setResetValues(true);
     };
+
+    const handleCreateObject = () => {
+        setModalCreateIsOpen(true)
+    }
+
+    const closeCreateModal = () => {
+        setModalCreateIsOpen(false)
+        setFilteredReclamations('')
+    }
 
     return (
         <div className='filters'>
@@ -117,8 +134,20 @@ export default function ReclamationFilter() {
                 <div className="button">
                     <MyButton type="submit">Применить фильтры</MyButton>
                     <MyButton onClick={handleResetFilters}>Сбросить все фильтры</MyButton>
+                    {!isClient ? 
+                    <MyButton onClick={handleCreateObject}>Добавить рекламацию</MyButton> : null}
                 </div>
             </form >
+            <Modal
+                className="modal-create"
+                isOpen={modalCreateIsOpen}
+                onRequestClose={closeCreateModal}
+                contentLabel="Object Crate Modal"
+            >
+                <ReclamationForm />
+                <hr />
+                <MyButton onClick={closeCreateModal}>Закрыть</MyButton>
+            </Modal>
             <ReclamationList filteredReclamations={filteredReclamations} />
         </div >
     )

@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react'
+import Modal from 'react-modal'
+import { useSelector } from 'react-redux';
 
 import MachineService from '../API/MachineService';
 import SelectListService from '../API/SelectListService';
 import MaintenanceService from '../API/MaintenanceService';
 
 import MaintenanceList from '../components/MaintenanceList';
+import MaintenanceForm from '../Form/MaintenanceForm'
+
 
 import MySelect from '../UI/Select/MySelect';
 import MyButton from '../UI/Button/MyButton';
 
 import './Filters.css'
+import '../styles/GetTable.css';
 
 export default function MaintenanceFilters() {
 
@@ -26,8 +31,12 @@ export default function MaintenanceFilters() {
     const [serviceCompany, setServiceCompany] = useState([]);
     const [resetValues, setResetValues] = useState(false);
 
+    const [modalCreateIsOpen, setModalCreateIsOpen] = useState(false);
+
+    const isCompany = useSelector(state => state.auth.company);
+
     useEffect(() => {
-        if (filteredMaintenance==='') {
+        if (filteredMaintenance === '') {
             MaintenanceService.getAll().then(resp => { setfilteredMaintenance(resp.data) })
         }
     }, [filteredMaintenance])
@@ -84,6 +93,16 @@ export default function MaintenanceFilters() {
         setResetValues(true);
     };
 
+    const handleCreateObject = () => {
+        setModalCreateIsOpen(true)
+    }
+
+    const closeCreateModal = () => {
+        setModalCreateIsOpen(false)
+        setfilteredMaintenance('')
+        setResetValues(true);
+    }
+
     return (
         <div className='filters'>
             <form className='filters-form' onSubmit={handleFilterSubmit}>
@@ -106,20 +125,33 @@ export default function MaintenanceFilters() {
                         onChange={handleFilterChange}
                     />
 
-                    <MySelect
-                        label="Сервисная компания"
-                        name="serviceCompany"
-                        value={filterValues.serviceCompany}
-                        options={serviceCompany}
-                        field={'serviceCompanyUser'}
-                        onChange={handleFilterChange}
-                    />
+                    {!isCompany ?
+                        <MySelect
+                            label="Сервисная компания"
+                            name="serviceCompany"
+                            value={filterValues.serviceCompany}
+                            options={serviceCompany}
+                            field={'serviceCompanyUser'}
+                            onChange={handleFilterChange}
+                        /> : null}
+
                 </div>
                 <div className="button">
                     <MyButton type="submit">Применить фильтры</MyButton>
                     <MyButton onClick={handleResetFilters}>Сбросить все фильтры</MyButton>
+                    <MyButton onClick={handleCreateObject}>Добавить информацию о ТО</MyButton>
                 </div>
             </form>
+            <Modal
+                className="modal-create"
+                isOpen={modalCreateIsOpen}
+                onRequestClose={closeCreateModal}
+                contentLabel="Object Crate Modal"
+            >
+                <MaintenanceForm />
+                <hr />
+                <MyButton onClick={closeCreateModal}>Закрыть</MyButton>
+            </Modal>
             <MaintenanceList filteredMaintenance={filteredMaintenance} />
         </div>
     )

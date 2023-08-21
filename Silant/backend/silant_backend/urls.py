@@ -6,7 +6,9 @@ urlpatterns = [
     path('maintenance/', MaintenanceAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('reclamation/', ReclamationAPIView.as_view({'get': 'list', 'post': 'create'})),
 
+    path('client/', ClientAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('service-company/', ServiceCompanyAPIView.as_view({'get': 'list', 'post': 'create'})),
+
     path('get-user', GetUserAPIView.as_view()),
 
     path('equipment-model/', EquipmentModelAPIView.as_view({'get': 'list', 'post': 'create'})),
@@ -15,48 +17,56 @@ urlpatterns = [
         'post': 'create',
         'put': 'update',
         'delete': 'destroy'})),
+
     path('engine-make/', EngineMakeAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('engine-make/<str:title>', EngineMakeAPIView.as_view({
         'get': 'retrieve',
         'post': 'create',
         'put': 'update',
         'delete': 'destroy'})),
+
     path('transmission-model/', TransmissionModelAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('transmission-model/<str:title>', TransmissionModelAPIView.as_view({
         'get': 'retrieve',
         'post': 'create',
         'put': 'update',
         'delete': 'destroy'})),
+
     path('driving-bridge-model/', DrivingBridgeModelAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('driving-bridge-model/<str:title>', DrivingBridgeModelAPIView.as_view({
         'get': 'retrieve',
         'post': 'create',
         'put': 'update',
         'delete': 'destroy'})),
+
     path('controlled-bridge-model/', ControlledBridgeModelAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('controlled-bridge-model/<str:title>', ControlledBridgeModelAPIView.as_view({
         'get': 'retrieve',
         'post': 'create',
         'put': 'update',
         'delete': 'destroy'})),
+
     path('maintenance-type/', MaintenanceTypeAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('maintenance-type/<str:title>', MaintenanceTypeAPIView.as_view({
         'get': 'retrieve',
         'post': 'create',
         'put': 'update',
         'delete': 'destroy'})),
+
     path('maintenance-organization/', MaintenanceOrganizationAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('maintenance-organization/<str:title>', MaintenanceOrganizationAPIView.as_view({
         'get': 'retrieve',
         'post': 'create',
         'put': 'update',
         'delete': 'destroy'})),
+
     path('failure-juncture/', FailureJunctureAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('failure-juncture/<str:title>', FailureJunctureAPIView.as_view({
         'get': 'retrieve',
         'post': 'create',
         'put': 'update',
         'delete': 'destroy'})),
+
     path('recovery-method/', RecoveryMethodAPIView.as_view({'get': 'list', 'post': 'create'})),
     path('recovery-method/<str:title>', RecoveryMethodAPIView.as_view({
         'get': 'retrieve',

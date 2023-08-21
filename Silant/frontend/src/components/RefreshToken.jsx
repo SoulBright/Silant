@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { updateAuthToken, updatePermissions } from '../authReducer';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { updateAuthToken } from '../authReducer';
 
 
 export default function RefreshToken({ onTokenRefreshed }) {
@@ -21,11 +21,25 @@ export default function RefreshToken({ onTokenRefreshed }) {
           });
 
           const newToken = response.data.access;
+
+          try {
+            const response = await axios.post('http://127.0.0.1:8000/api/get-user', {
+              access: newToken
+            });
+
+            const permission = response.data;
+
+            dispatch(updatePermissions(permission))
+
+          } catch (error) {
+            console.error(error);
+          }
+
           dispatch(updateAuthToken(newToken));
           localStorage.setItem('authToken', newToken);
+
           onTokenRefreshed();
           setIsError(false);
-
         } catch (error) {
           console.error('Произошла ошибка при обновлении токена:', error);
           setIsError(true);

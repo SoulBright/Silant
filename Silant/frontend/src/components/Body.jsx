@@ -11,7 +11,7 @@ export default function Body() {
 
   return (
     <div className='body'>
-      {isUserAuthenticated ? <Main /> : <SearchMachines />}
+      {isUserAuthenticated ? <Main/> : <SearchMachines />}
     </div>
   );
 }

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import Modal from 'react-modal'
 
 import MyButton from '../UI/Button/MyButton'
 import ListService from '../API/ListService'
 
-import AddListsObjects from '../Lists/AddListsObjects.jsx'
+import AddListsObjects from './AddListsObjects.jsx'
 
 import '../styles/GetTable.css'
 
-export default function MachineList({ filteredMachines }) {
+export default function MachineList({ filteredMachines}) {
+    const isManager = useSelector(state => state.auth.manager);
+
     const [machines, setMachines] = useState([])
     const [objectInfo, setObjectInfo] = useState({});
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -17,6 +20,7 @@ export default function MachineList({ filteredMachines }) {
     const [selectedTransmissionModel, setSelectedTransmissionModel] = useState('');
     const [selectedDrivingBridgeModel, setSelectedDrivingBridgeModel] = useState('');
     const [selectedControlledBridgeModel, setSelectedControlledBridgeModele] = useState('');
+
 
     useEffect(() => {
         setMachines(filteredMachines);
@@ -119,15 +123,16 @@ export default function MachineList({ filteredMachines }) {
     return (
         <div>
             <div>
-                <h1 style={{ textAlign: 'center' }}>Информация о комплектации и технических характеристиках вашей техники</h1>
+                <h1 style={{ textAlign: 'center' }}>Информация о комплектации и технических характеристиках</h1>
             </div>
-            <div className="list-buttons">
-                <AddListsObjects url={'equipment-model'} label={'Добавить модель техники'}/>
-                <AddListsObjects url={'engine-make'} label={'Добавить модель двигателя'}/>
-                <AddListsObjects url={'transmission-model'} label={'Добавить модель трансмиссии'}/>
-                <AddListsObjects url={'driving-bridge-model'} label={'Добавить модель ведущего моста'}/>
-                <AddListsObjects url={'controlled-bridge-model'} label={'Добавить управляемого моста'}/>
-            </div>
+            {!isManager ? null :
+                <div className="list-buttons">
+                    <AddListsObjects url={'equipment-model'} label={'Добавить модель техники'} />
+                    <AddListsObjects url={'engine-make'} label={'Добавить модель двигателя'} />
+                    <AddListsObjects url={'transmission-model'} label={'Добавить модель трансмиссии'} />
+                    <AddListsObjects url={'driving-bridge-model'} label={'Добавить модель ведущего моста'} />
+                    <AddListsObjects url={'controlled-bridge-model'} label={'Добавить управляемого моста'} />
+                </div>}
             {machines.length ? (
                 <div className='table-wrapper'>
                     <table className='table'>

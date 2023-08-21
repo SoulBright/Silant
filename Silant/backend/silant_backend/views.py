@@ -323,6 +323,11 @@ class RecoveryMethodAPIView(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class ClientAPIView(viewsets.ModelViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+
+
 class ServiceCompanyAPIView(viewsets.ModelViewSet):
     queryset = ServiceCompany.objects.all()
     serializer_class = ServiceCompanySerializer

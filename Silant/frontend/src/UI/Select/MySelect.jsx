@@ -15,7 +15,7 @@ export default function MySelect({ label, name, value, options, field, onChange 
         value={value}
         onChange={onChange}
       >
-        <option value="">Все</option>
+        <option value="">-------</option>
         {options.map((option) => (
           <option key={option.id} value={option.id}>
             {option[field]}
