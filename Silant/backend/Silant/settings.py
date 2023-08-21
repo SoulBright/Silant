@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
+    'drf_yasg',
+
     'silant_backend',
 ]
 
