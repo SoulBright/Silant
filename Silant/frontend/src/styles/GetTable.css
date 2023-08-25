@@ -22,6 +22,10 @@
   background: #f5d7bf;
 }
 
+.table thead tr th {
+  cursor: pointer;
+}
+
 .modal {
   width: 400px;
   height: auto;

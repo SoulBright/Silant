@@ -11,12 +11,15 @@ import '../styles/GetTable.css'
 
 export default function MaintenanceList({ filteredMaintenance }) {
     const isManager = useSelector(state => state.auth.manager);
-    
+
     const [maintenances, setMaintenance] = useState([]);
     const [objectInfo, setObjectInfo] = useState({});
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedType, setSelectedType] = useState('');
     const [selectedMaintenanceOrg, setSelectedMaintenanceOrg] = useState('');
+
+    const [sortColumn, setSortColumn] = useState(null);
+    const [sortDirection, setSortDirection] = useState('asc');
 
     useEffect(() => {
         setMaintenance(filteredMaintenance);
@@ -63,33 +66,89 @@ export default function MaintenanceList({ filteredMaintenance }) {
         setModalIsOpen(false)
     }
 
+    const handleSort = (column) => {
+        if (sortColumn === column) {
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortColumn(column);
+            setSortDirection('asc');
+        }
+    };
+
+    const sortedMaintenances = maintenances && maintenances.length ? maintenances.sort((a, b) => {
+        if (sortColumn === 'type') {
+            return sortDirection === 'asc' ? a.type.localeCompare(b.type) : b.type.localeCompare(a.type);
+        } else if (sortColumn === 'date') {
+            return sortDirection === 'asc' ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date);
+        } else if (sortColumn === 'operatingTime') {
+            return sortDirection === 'asc' ? a.operatingTime - b.operatingTime : b.operatingTime - a.operatingTime;
+        } else if (sortColumn === 'workOrder') {
+            return sortDirection === 'asc' ? a.workOrder.localeCompare(b.workOrder) : b.workOrder.localeCompare(a.workOrder);
+        } else if (sortColumn === 'workOrderDate') {
+            return sortDirection === 'asc' ? a.workOrderDate.localeCompare(b.workOrderDate) : b.workOrderDate.localeCompare(a.workOrderDate);
+        } else if (sortColumn === 'maintenanceOrganization') {
+            return sortDirection === 'asc' ? a.maintenanceOrganization.localeCompare(b.maintenanceOrganization) : b.maintenanceOrganization.localeCompare(a.maintenanceOrganization);
+        } else if (sortColumn === 'machine') {
+            return sortDirection === 'asc' ? a.machine.localeCompare(b.machine) : b.machine.localeCompare(a.machine);
+        } else if (sortColumn === 'serviceCompany') {
+            return sortDirection === 'asc' ? a.serviceCompany.localeCompare(b.serviceCompany) : b.serviceCompany.localeCompare(a.serviceCompany);
+        }
+
+
+        return 0;
+    }) : [];
+
     return (
         <div>
             <div>
                 <h1 style={{ textAlign: 'center' }}>Информация о проведённых ТО</h1>
             </div>
             {!isManager ? null :
-            <div className="list-buttons">
-                <AddListsObjects url={'maintenance-type'} label={'Добавить Вид ТО'} />
-                <AddListsObjects url={'maintenance-organization'} label={'Добавить Организацию, проводившую ТО'} />
-            </div>}
+                <div className="list-buttons">
+                    <AddListsObjects url={'maintenance-type'} label={'Добавить Вид ТО'} />
+                    <AddListsObjects url={'maintenance-organization'} label={'Добавить Организацию, проводившую ТО'} />
+                </div>}
             {maintenances.length ? (
                 <div className='table-wrapper'>
                     <table className='table'>
                         <thead>
                             <tr>
-                                <th>Вид ТО</th>
-                                <th>Дата проведения ТО</th>
-                                <th>Наработка, м/час</th>
-                                <th>№ заказ-наряда</th>
-                                <th>Дата заказ-наряда</th>
-                                <th>Организация, проводившая ТО</th>
-                                <th>Машина</th>
-                                <th>Сервисная компания</th>
+                                <th onClick={() => handleSort('type')}>
+                                    Вид ТО
+                                    {sortColumn === 'type' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('date')}>
+                                    Дата проведения ТО
+                                    {sortColumn === 'date' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('operatingTime')}>
+                                    Наработка, м/час
+                                    {sortColumn === 'operatingTime' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('workOrder')}>
+                                    № заказ-наряда
+                                    {sortColumn === 'workOrder' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('workOrderDate')}>
+                                    Дата заказ-наряда
+                                    {sortColumn === 'workOrderDate' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('maintenanceOrganization')}>
+                                    Организация, проводившая ТО
+                                    {sortColumn === 'maintenanceOrganization' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('machine')}>
+                                    Машина
+                                    {sortColumn === 'machine' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('serviceCompany')}>
+                                    Сервисная компания
+                                    {sortColumn === 'serviceCompany' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {maintenances.map(maintenance => (
+                            {sortedMaintenances.map(maintenance => (
                                 <tr key={maintenance.id}>
                                     <td
                                         style={{ cursor: 'pointer', color: 'blue' }}

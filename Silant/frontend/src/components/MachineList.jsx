@@ -9,7 +9,7 @@ import AddListsObjects from './AddListsObjects.jsx'
 
 import '../styles/GetTable.css'
 
-export default function MachineList({ filteredMachines}) {
+export default function MachineList({ filteredMachines }) {
     const isManager = useSelector(state => state.auth.manager);
 
     const [machines, setMachines] = useState([])
@@ -21,6 +21,8 @@ export default function MachineList({ filteredMachines}) {
     const [selectedDrivingBridgeModel, setSelectedDrivingBridgeModel] = useState('');
     const [selectedControlledBridgeModel, setSelectedControlledBridgeModele] = useState('');
 
+    const [sortColumn, setSortColumn] = useState(null);
+    const [sortDirection, setSortDirection] = useState('asc');
 
     useEffect(() => {
         setMachines(filteredMachines);
@@ -120,6 +122,60 @@ export default function MachineList({ filteredMachines}) {
         setModalIsOpen(false);
     }
 
+    ///
+
+    const handleSort = (column) => {
+        if (sortColumn === column) {
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortColumn(column);
+            setSortDirection('asc');
+        }
+    };
+
+    const sortedMachines = machines && machines.length ? machines.sort((a, b) => {
+        if (sortColumn === 'machineSerialNumber') {
+            return sortDirection === 'asc' ? a.machineSerialNumber.localeCompare(b.machineSerialNumber) : b.machineSerialNumber.localeCompare(a.machineSerialNumber);
+        } else if (sortColumn === 'equipmentModel') {
+            return sortDirection === 'asc' ? a.equipmentModel.localeCompare(b.equipmentModel) : b.equipmentModel.localeCompare(a.equipmentModel);
+        } else if (sortColumn === 'engineMake') {
+            return sortDirection === 'asc' ? a.engineMake.localeCompare(b.engineMake) : b.engineMake.localeCompare(a.engineMake);
+        } else if (sortColumn === 'engineSerialNumber') {
+            return sortDirection === 'asc' ? a.engineSerialNumber.localeCompare(b.engineSerialNumber) : b.engineSerialNumber.localeCompare(a.engineSerialNumber);
+        } else if (sortColumn === 'transmissionModel') {
+            return sortDirection === 'asc' ? a.transmissionModel.localeCompare(b.transmissionModel) : b.transmissionModel.localeCompare(a.transmissionModel);
+        } else if (sortColumn === 'transmissionSerialNumber') {
+            return sortDirection === 'asc' ? a.transmissionSerialNumber.localeCompare(b.transmissionSerialNumber) : b.transmissionSerialNumber.localeCompare(a.transmissionSerialNumber);
+        } else if (sortColumn === 'drivingBridgeModel') {
+            return sortDirection === 'asc' ? a.drivingBridgeModel.localeCompare(b.drivingBridgeModel) : b.drivingBridgeModel.localeCompare(a.drivingBridgeModel);
+        } else if (sortColumn === 'drivingBridgeSerialNumber') {
+            return sortDirection === 'asc' ? a.drivingBridgeSerialNumber.localeCompare(b.drivingBridgeSerialNumber) : b.drivingBridgeSerialNumber.localeCompare(a.drivingBridgeSerialNumber);
+        } else if (sortColumn === 'controlledBridgeModel') {
+            return sortDirection === 'asc' ? a.controlledBridgeModel.localeCompare(b.controlledBridgeModel) : b.controlledBridgeModel.localeCompare(a.controlledBridgeModel);
+        } else if (sortColumn === 'controlledBridgeSerialNumber') {
+            return sortDirection === 'asc' ? a.controlledBridgeSerialNumber.localeCompare(b.controlledBridgeSerialNumber) : b.controlledBridgeSerialNumber.localeCompare(a.controlledBridgeSerialNumber);
+        } else if (sortColumn === 'contract') {
+            return sortDirection === 'asc' ? a.contract.localeCompare(b.contract) : b.contract.localeCompare(a.contract);
+        } else if (sortColumn === 'shipDate') {
+            return sortDirection === 'asc' ? a.shipDate.localeCompare(b.shipDate) : b.shipDate.localeCompare(a.shipDate);
+        } else if (sortColumn === 'consignee') {
+            return sortDirection === 'asc' ? a.consignee.localeCompare(b.consignee) : b.consignee.localeCompare(a.consignee);
+        } else if (sortColumn === 'deliveryAddress') {
+            return sortDirection === 'asc' ? a.deliveryAddress.localeCompare(b.deliveryAddress) : b.deliveryAddress.localeCompare(a.deliveryAddress);
+        } else if (sortColumn === 'picking') {
+            return sortDirection === 'asc' ? a.picking.localeCompare(b.picking) : b.picking.localeCompare(a.picking);
+        } else if (sortColumn === 'client') {
+            return sortDirection === 'asc' ? a.client.localeCompare(b.client) : b.client.localeCompare(a.client);
+        } else if (sortColumn === 'serviceCompany') {
+            return sortDirection === 'asc' ? a.serviceCompany.localeCompare(b.serviceCompany) : b.serviceCompany.localeCompare(a.serviceCompany);
+        };
+
+        return 0;
+    }) : [];
+
+
+
+
     return (
         <div>
             <div>
@@ -138,27 +194,78 @@ export default function MachineList({ filteredMachines}) {
                     <table className='table'>
                         <thead>
                             <tr>
-                                <th>Зав. № машины</th>
-                                <th>Модель техники</th>
-                                <th>Модель двигателя</th>
-                                <th>Зав. № двигателя</th>
-                                <th>Модель трансмиссии</th>
-                                <th>Зав. № трансмиссии</th>
-                                <th>Модель ведущего моста</th>
-                                <th>Зав. № ведущего моста</th>
-                                <th>Модель управляемого моста</th>
-                                <th>Зав. № управляемого моста</th>
-                                <th>Договор поставки №, дата</th>
-                                <th>Дата отгрузки с завода</th>
-                                <th>Грузополучатель</th>
-                                <th>Адрес поставки</th>
-                                <th>Комплектация</th>
-                                <th>Клиент</th>
-                                <th>Сервисная компания</th>
+                                <th onClick={() => handleSort('machineSerialNumber')}>
+                                    Зав. № машины
+                                    {sortColumn === 'machineSerialNumber' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('equipmentModel')}>
+                                    Модель техники
+                                    {sortColumn === 'equipmentModel' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('engineMake')}>
+                                    Модель двигателя
+                                    {sortColumn === 'engineMake' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('engineSerialNumber')}>
+                                    Зав. № двигателя
+                                    {sortColumn === 'engineSerialNumber' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('transmissionModel')}>
+                                    Модель трансмиссии
+                                    {sortColumn === 'transmissionModel' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('transmissionSerialNumber')}>
+                                    Зав. № трансмиссии
+                                    {sortColumn === 'transmissionSerialNumber' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('drivingBridgeModel')}>
+                                    Модель ведущего моста
+                                    {sortColumn === 'drivingBridgeModel' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('drivingBridgeSerialNumber')}>
+                                    Зав. № ведущего моста
+                                    {sortColumn === 'drivingBridgeSerialNumber' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('controlledBridgeModel')}>
+                                    Модель управляемого моста
+                                    {sortColumn === 'controlledBridgeModel' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('controlledBridgeSerialNumber')}>
+                                    Зав. № управляемого моста
+                                    {sortColumn === 'controlledBridgeSerialNumber' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('contract')}>
+                                    Договор поставки №, дата
+                                    {sortColumn === 'contract' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('shipDate')}>
+                                    Дата отгрузки с завода
+                                    {sortColumn === 'shipDate' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('consignee')}>
+                                    Грузополучатель
+                                    {sortColumn === 'consignee' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('deliveryAddress')}>
+                                    Адрес поставки
+                                    {sortColumn === 'deliveryAddress' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('picking')}>
+                                    Комплектация
+                                    {sortColumn === 'picking' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('client')}>
+                                    Клиент
+                                    {sortColumn === 'client' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('serviceCompany')}>
+                                    Сервисная компания
+                                    {sortColumn === 'serviceCompany' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {machines.map(machine => (
+                            {sortedMachines.map(machine => (
                                 <tr key={machine.id}>
                                     <td>{machine.machineSerialNumber}</td>
                                     <td

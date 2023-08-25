@@ -9,14 +9,17 @@ import AddListsObjects from './AddListsObjects.jsx'
 
 import '../styles/GetTable.css'
 
-export default function ReclamationList({ filteredReclamations}) {
+export default function ReclamationList({ filteredReclamations }) {
     const isManager = useSelector(state => state.auth.manager);
-    
+
     const [reclamations, setReclamation] = useState([]);
     const [objectInfo, setObjectInfo] = useState({});
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedFailureJuncture, setSelectedFailureJuncture] = useState('');
     const [selectedRecoveryMethod, setSelectedRecoveryMethod] = useState('');
+
+    const [sortColumn, setSortColumn] = useState(null);
+    const [sortDirection, setSortDirection] = useState('asc');
 
     useEffect(() => {
         setReclamation(filteredReclamations);
@@ -62,6 +65,42 @@ export default function ReclamationList({ filteredReclamations}) {
         setModalIsOpen(false)
     }
 
+    const handleSort = (column) => {
+        if (sortColumn === column) {
+            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortColumn(column);
+            setSortDirection('asc');
+        }
+    };
+
+    const sortedReclamations = reclamations && reclamations.length ? reclamations.sort((a, b) => {
+        if (sortColumn === 'failureDate') {
+            return sortDirection === 'asc' ? a.failureDate.localeCompare(b.failureDate) : b.failureDate.localeCompare(a.failureDate);
+        } else if (sortColumn === 'operatingTime') {
+            return sortDirection === 'asc' ? a.operatingTime - b.operatingTime : b.operatingTime - a.operatingTime;
+        } else if (sortColumn === 'failureJuncture') {
+            return sortDirection === 'asc' ? a.failureDate.localeCompare(b.failureJuncture) : b.failureJuncture.localeCompare(a.failureJuncture);
+        } else if (sortColumn === 'failureDescription') {
+            return sortDirection === 'asc' ? a.failureDescription.localeCompare(b.failureDescription) : b.failureDescription.localeCompare(a.failureDescription);
+        } else if (sortColumn === 'recoveryMethod') {
+            return sortDirection === 'asc' ? a.recoveryMethod.localeCompare(b.recoveryMethod) : b.recoveryMethod.localeCompare(a.recoveryMethod);
+        } else if (sortColumn === 'spareParts') {
+            return sortDirection === 'asc' ? a.spareParts.localeCompare(b.spareParts) : b.spareParts.localeCompare(a.spareParts);
+        } else if (sortColumn === 'recoveryDate') {
+            return sortDirection === 'asc' ? a.recoveryDate.localeCompare(b.recoveryDate) : b.recoveryDate.localeCompare(a.recoveryDate);
+        } else if (sortColumn === 'equipmentDowntime') {
+            return sortDirection === 'asc' ? a.equipmentDowntime - b.equipmentDowntime : b.equipmentDowntime - a.equipmentDowntime;
+        } else if (sortColumn === 'machine') {
+            return sortDirection === 'asc' ? a.machine.localeCompare(b.machine) : b.machine.localeCompare(a.machine);
+        } else if (sortColumn === 'serviceCompany') {
+            return sortDirection === 'asc' ? a.serviceCompany.localeCompare(b.serviceCompany) : b.serviceCompany.localeCompare(a.serviceCompany);
+        }
+
+        return 0;
+    }) : [];
+
+
     return (
         <div>
             <div>
@@ -77,20 +116,50 @@ export default function ReclamationList({ filteredReclamations}) {
                     <table className='table'>
                         <thead>
                             <tr>
-                                <th>Дата отказа</th>
-                                <th>Наработка, м/час</th>
-                                <th>Узел отказа</th>
-                                <th>Описание отказа</th>
-                                <th>Способ восстановления</th>
-                                <th>Запасные части</th>
-                                <th>Дата восстановления</th>
-                                <th>Время простоя техники</th>
-                                <th>Машина</th>
-                                <th>Сервисная компания</th>
+                                <th onClick={() => handleSort('failureDate')}>
+                                    Дата отказа
+                                    {sortColumn === 'failureDate' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('operatingTime')}>
+                                    Наработка, м/час
+                                    {sortColumn === 'operatingTime' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('failureJuncture')}>
+                                    Узел отказа
+                                    {sortColumn === 'failureJuncture' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('failureDescription')}>
+                                    Описание отказа
+                                    {sortColumn === 'failureDescription' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('recoveryMethod')}>
+                                    Способ восстановления
+                                    {sortColumn === 'recoveryMethod' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('spareParts')}>
+                                    Запасные части
+                                    {sortColumn === 'spareParts' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('recoveryDate')}>
+                                    Дата восстановления
+                                    {sortColumn === 'recoveryDate' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('equipmentDowntime')}>
+                                    Время простоя техники
+                                    {sortColumn === 'equipmentDowntime' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('machine')}>
+                                    Машина
+                                    {sortColumn === 'machine' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
+                                <th onClick={() => handleSort('serviceCompany')}>
+                                    Сервисная компания
+                                    {sortColumn === 'serviceCompany' && (sortDirection === 'asc' ? ' ▲' : ' ▼')}
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {reclamations.map(reclamation => (
+                            {sortedReclamations.map(reclamation => (
                                 <tr key={reclamation.id}>
                                     <td>{reclamation.failureDate}</td>
                                     <td>{reclamation.operatingTime}</td>
