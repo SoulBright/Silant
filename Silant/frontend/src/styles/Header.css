@@ -1,5 +1,5 @@
 .header {
-    width: 1366px;
+    max-width: 1366px;
     height: 150px;
     color: #D20A11;
     background-color: #163E6C;
@@ -40,4 +40,40 @@
     display: flex;
     flex-grow: 1;
     flex-direction: column;
+}
+
+@media screen and (max-width: 1200px) {
+    .header {
+        height: 180px;
+    }
+
+    .h-wrapper {
+        flex-direction: column;
+    }
+
+    .with-margin {
+        margin-left: 0px;
+      }
+
+    .title {
+        margin-right: auto;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .header {
+        height: auto;
+    }
+
+    .logo {
+        height: 200px;
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 810px) {
+    .header {
+        flex-direction: column;
+    }
 }

@@ -41,10 +41,10 @@ export default function SearchMachines() {
     };
 
     return (
-        <div>
-            <div>
-                <h2 style={{ textAlign: 'center', color: '#D20A11' }}>Авторизуйтесь для получения подробной информации о вашей технике</h2>
-                <h1 style={{ textAlign: 'center', color: '#163E6C' }}>Вы можете получить информацию о техникe по серийному номеру</h1>
+        <div className='unauthorizate-body'>
+            <div className='info'>
+                <h2 style={{ color: '#D20A11' }}>Авторизуйтесь для получения подробной информации о вашей технике</h2>
+                <h1 style={{ color: '#163E6C' }}>Вы можете получить информацию о техникe по серийному номеру</h1>
             </div>
             <div className="search-wrapper">
             <MyInput
@@ -58,7 +58,7 @@ export default function SearchMachines() {
             {machineData && (
                 <div className='table-wrapper'>
                     <table className='table'>
-                        <thead style={{color: '#163E6C' }}>
+                        <thead style={{color: '#163E6C',}}>
                             <tr>
                                 <th>Зав. № машины</th>
                                 <th>Модель техники</th>

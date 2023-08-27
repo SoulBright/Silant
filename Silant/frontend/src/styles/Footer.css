@@ -1,5 +1,5 @@
 .footer {
-    width: 1366px;
+    max-width: 1366px;
     height: 100px;
     margin-top: 14px;
     color: #D20A11;
@@ -8,4 +8,12 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+}
+
+@media screen and (max-width: 440px) {
+    .footer {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
 }

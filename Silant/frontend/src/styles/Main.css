@@ -1,14 +1,32 @@
 .main {
-    width: 1366px;
+    max-width: 1366px;
     height: auto;
     margin-left: auto;
     margin-right: auto;
     color: #163E6C;
     background-color: #EBE6D6;
     border-radius: 7px;
+    overflow-x: auto;
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
 }
 
 hr {
     border-width: 2px;
     border-color: #163E6C;
+}
+
+.main-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width: 460px) {
+    .main-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
 }

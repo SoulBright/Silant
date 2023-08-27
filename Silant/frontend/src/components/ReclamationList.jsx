@@ -102,7 +102,7 @@ export default function ReclamationList({ filteredReclamations }) {
 
 
     return (
-        <div>
+        <div className='authorizate-body'>
             <div>
                 <h1 style={{ textAlign: 'center' }}>Информация о рекламациях</h1>
             </div>

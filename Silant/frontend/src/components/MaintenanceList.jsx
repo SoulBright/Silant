@@ -99,7 +99,7 @@ export default function MaintenanceList({ filteredMaintenance }) {
     }) : [];
 
     return (
-        <div>
+        <div className='authorizate-body'> 
             <div>
                 <h1 style={{ textAlign: 'center' }}>Информация о проведённых ТО</h1>
             </div>

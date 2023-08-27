@@ -113,55 +113,62 @@ export default function MachineFilters() {
 
 
     return (
-        <form className='filters-form' onSubmit={handleFilterSubmit}>
-            <div className="select">
-                <MySelect
-                    label="Модель оборудования"
-                    name="equipmentModel"
-                    value={filterValues.equipmentModel}
-                    options={equipmentModels}
-                    field={'title'}
-                    onChange={handleFilterChange}
-                />
-                <MySelect
-                    label="Модель двигателя"
-                    name="engineMake"
-                    value={filterValues.engineMake}
-                    options={engineMakes}
-                    field={'title'}
-                    onChange={handleFilterChange}
-                />
-                <MySelect
-                    label="Модель трансмиссии"
-                    name="transmissionModel"
-                    value={filterValues.transmissionModel}
-                    options={transmissionModels}
-                    field={'title'}
-                    onChange={handleFilterChange}
-                />
-                <MySelect
-                    label="Модель ведущего моста"
-                    name="drivingBridgeModel"
-                    value={filterValues.drivingBridgeModel}
-                    options={drivingBridgeModels}
-                    field={'title'}
-                    onChange={handleFilterChange}
-                />
-                <MySelect
-                    label="Модель управляемого моста"
-                    name="controlledBridgeModel"
-                    value={filterValues.controlledBridgeModel}
-                    options={controlledBridgeModels}
-                    field={'title'}
-                    onChange={handleFilterChange}
-                />
-            </div>
-            <div className="button">
-                <MyButton type="submit">Применить фильтры</MyButton>
-                <MyButton onClick={handleResetFilters}>Сбросить все фильтры</MyButton>
-                {!isManager ? null :
-                <MyButton onClick={handleCreateObject}>Добавить Машину</MyButton>}
-            </div>
+        <div className='filters'>
+            <form className='filters-form' onSubmit={handleFilterSubmit}>
+                <div className="select">
+                    <MySelect
+                        label="Модель оборудования"
+                        name="equipmentModel"
+                        value={filterValues.equipmentModel}
+                        options={equipmentModels}
+                        field={'title'}
+                        onChange={handleFilterChange}
+                    />
+
+                    <MySelect
+                        label="Модель двигателя"
+                        name="engineMake"
+                        value={filterValues.engineMake}
+                        options={engineMakes}
+                        field={'title'}
+                        onChange={handleFilterChange}
+                    />
+
+                    <MySelect
+                        label="Модель трансмиссии"
+                        name="transmissionModel"
+                        value={filterValues.transmissionModel}
+                        options={transmissionModels}
+                        field={'title'}
+                        onChange={handleFilterChange}
+                    />
+
+                    <MySelect
+                        label="Модель ведущего моста"
+                        name="drivingBridgeModel"
+                        value={filterValues.drivingBridgeModel}
+                        options={drivingBridgeModels}
+                        field={'title'}
+                        onChange={handleFilterChange}
+                    />
+
+                    <MySelect
+                        label="Модель управляемого моста"
+                        name="controlledBridgeModel"
+                        value={filterValues.controlledBridgeModel}
+                        options={controlledBridgeModels}
+                        field={'title'}
+                        onChange={handleFilterChange}
+                    />
+
+                </div>
+                <div className="button">
+                    <MyButton type="submit">Применить фильтры</MyButton>
+                    <MyButton onClick={handleResetFilters}>Сбросить все фильтры</MyButton>
+                    {!isManager ? null :
+                        <MyButton onClick={handleCreateObject}>Добавить Машину</MyButton>}
+                </div>
+            </form>
             <Modal
                 className="modal-create"
                 isOpen={modalCreateIsOpen}
@@ -172,7 +179,7 @@ export default function MachineFilters() {
                 <hr />
                 <MyButton onClick={closeCreateModal}>Закрыть</MyButton>
             </Modal>
-            <MachineList filteredMachines={filteredMachines}/>
-        </form>
+            <MachineList filteredMachines={filteredMachines} />
+        </div>
     )
 }

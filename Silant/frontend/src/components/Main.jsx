@@ -21,8 +21,8 @@ export default function Main() {
 
     return (
         <div className="main">
-            <h1 style={{ display: 'flex', justifyContent: 'center' }}>Здравствуйте {user}</h1>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <h1>Здравствуйте {user}</h1>
+            <div className="main-buttons">
                 <MyButton
                     onClick={() => handleTabClick("MachineList")}
                     style={{
